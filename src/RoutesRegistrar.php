@@ -1,6 +1,6 @@
 <?php
 
-namespace Finnegan\Settings;
+namespace Finnegan\Api;
 
 
 use Finnegan\Routing\Registrars\AbstractRegistrar;
