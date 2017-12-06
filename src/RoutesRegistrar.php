@@ -5,28 +5,26 @@ namespace Finnegan\Api;
 
 use Finnegan\Routing\Registrars\AbstractRegistrar;
 use Illuminate\Contracts\Routing\Registrar;
+use Spatie\Permission\Middlewares\PermissionMiddleware;
 
 
 class RoutesRegistrar extends AbstractRegistrar
 {
 	
-	protected $controller = Controller::class;
+	protected $controller = AdminController::class;
 	
 	
 	public function register ()
 	{
-		/*$this->secureGroup ( function ( Registrar $router ) {
+		$this->secureGroup ( function ( Registrar $router ) {
 			$router->group (
-				[ 'middleware' => PermissionMiddleware::class . ':manage_configuration' ],
+				[ 'middleware' => PermissionMiddleware::class . ':developer_tools' ],
 				function ( Registrar $router ) {
 					
-					$router->get ( 'settings', "{$this->controller}@edit" )
-						   ->name ( 'edit-settings' );
+					$router->get ( 'api-manifest', "{$this->controller}@manifest" )
+						   ->name ( 'api-manifest' );
 					
-					$router->match ( [ 'PUT', 'PATCH' ], 'settings', "{$this->controller}@store" )
-						   ->name ( 'store-settings' );
-				}
-			);
-		} );*/
+				} );
+		} );
 	}
 }
