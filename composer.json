@@ -29,7 +29,7 @@
     "extra":{
         "laravel":{
             "providers":[
-                "Finnegan\\Settings\\ApiServiceProvider"
+                "Finnegan\\Api\\ApiServiceProvider"
             ]
         }
     }
