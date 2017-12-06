@@ -1,0 +1,36 @@
+{
+    "name":"finnegan/cds-api",
+    "description":"API package for FinneganCDS.",
+    "homepage":"https://gitlab.test5.hce.it/finnegan/extensions/cds-api",
+    "license":"MIT",
+    "authors":[
+        {
+            "name":"Fabio Savina",
+            "email":"fsavina@hce.it"
+        }
+    ],
+    "keywords":[
+        "administrator",
+        "admin",
+        "laravel",
+        "cms",
+        "crud",
+        "finnegan",
+        "api"
+    ],
+    "require":{
+        "finnegan/cds":"1.5.*"
+    },
+    "autoload":{
+        "psr-4":{
+            "Finnegan\\Api\\":"src"
+        }
+    },
+    "extra":{
+        "laravel":{
+            "providers":[
+                "Finnegan\\Settings\\ApiServiceProvider"
+            ]
+        }
+    }
+}
