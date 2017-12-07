@@ -121,8 +121,13 @@
             <a class="title" data-toggle="{{$id}}">{{ count($models) ? 'Other' : '' }} Endpoints</a>
             <div class="content">
                 @foreach($endpoints as $endpoint)
-                    <div class="callout {{ array_get($methodMap, strtoupper (array_first((array)$endpoint->methods))) }} }}">
+                    @php($firstMethod = strtoupper (array_first((array)$endpoint->methods)))
+                    <div class="callout {{ array_get($methodMap, $firstMethod) }} }}">
                         <p class="clearfix">
+                            @if($firstMethod == 'GET')
+                                <a href="/api/{{ $endpoint->uri }}" target="_blank"
+                                   class="float-right">{!! $icons('external-link') !!}</a>
+                            @endif
                             <code>/api/{!! preg_replace('#({[^}]+})#', '<span style="color:orange;">$1</span>', $endpoint->uri) !!}</code>
                             @foreach((array)$endpoint->methods as $method)
                                 <span class="label {{ array_get($methodMap, strtoupper ($method)) }}">{{ strtoupper ($method) }}</span>
