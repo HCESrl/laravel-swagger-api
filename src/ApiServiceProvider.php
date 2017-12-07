@@ -33,7 +33,7 @@ class ApiServiceProvider extends ServiceProvider
 		
 		$this->app[ 'view' ]->composer ( 'finnegan-api::*', ViewComposer::class );
 		
-		$menu->route ( 'tools', '*', 'api-manifest', $icons->icon ( 'plug' ) . ' API Manifest' );
+		$menu->tools->route ( 'api-manifest', $icons->icon ( 'plug' ) . ' API Manifest' );
 	}
 	
 	
