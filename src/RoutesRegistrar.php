@@ -21,7 +21,7 @@ class RoutesRegistrar extends AbstractRegistrar
 				[ 'middleware' => PermissionMiddleware::class . ':developer_tools' ],
 				function ( Registrar $router ) {
 					
-					$router->get ( 'api-manifest', "{$this->controller}@manifest" )
+					$router->get ( 'tools/api-manifest', "{$this->controller}@manifest" )
 						   ->name ( 'api-manifest' );
 					
 				} );
