@@ -18,12 +18,27 @@
         "finnegan",
         "api"
     ],
+    "repositories":[
+        {
+            "type":"vcs",
+            "url":"git@gitlab.test5.hce.it:finnegan/cds.git"
+        }
+    ],
     "require":{
         "finnegan/cds":"1.6.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5",
+        "orchestra/testbench": "^3.5"
     },
     "autoload":{
         "psr-4":{
             "Finnegan\\Api\\":"src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Finnegan\\Api\\Tests\\": "tests/"
         }
     },
     "extra":{
