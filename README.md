@@ -57,7 +57,7 @@ The method takes 3 parameter:
 ```php
 public function boot ( Api $api )
 {
-    $api->endpoint ( 'foobar-uri', 'App\\ApiController@handlerFunction', 'post' );
+    $api->endpoint ( 'foobar/uri', 'App\\ApiController@handlerFunction', 'post' );
 }
 ```
 
@@ -67,14 +67,14 @@ the API manifest
 ```php
 public function boot ( Api $api )
 {
-    $api->endpoint ( 'foobar-uri', 'App\\ApiController@handlerFunction', 'post' )
+    $api->endpoint ( 'foobar/uri', 'App\\ApiController@handlerFunction', 'post' )
         ->description ( 'The description of the endpoint' )
         ->arguments ( [
             [ 'foo', 'numeric', 'The description of the first argument.' ],
             [ 'bar', 'string', 'The description of the second argument.' ],
         ] )
         ->examples ( [
-            [ 'The description of the example.', '/api/foobar-uri?foo=42' ],
+            [ 'The description of the example.', '/api/foobar/uri?foo=42' ],
         ] );
 }
 ```
