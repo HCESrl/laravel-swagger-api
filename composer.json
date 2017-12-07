@@ -19,7 +19,7 @@
         "api"
     ],
     "require":{
-        "finnegan/cds":"1.5.*"
+        "finnegan/cds":"master-dev"
     },
     "autoload":{
         "psr-4":{
