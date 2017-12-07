@@ -8,13 +8,15 @@ FinneganCDS is a web Content Design System built on top of [Laravel framework](h
 
 Add the repository to your composer.json:
 ```json
-"repositories":
-[
-    {
-        "type":"vcs",
-         "url":"git@gitlab.test5.hce.it:finnegan/extensions/cds-api.git"
-    }
-]
+{
+    "repositories":
+    [
+        {
+            "type":"vcs",
+            "url":"git@gitlab.test5.hce.it:finnegan/extensions/cds-api.git"
+        }
+    ]
+}
 ```
 
 Install the package:
@@ -25,7 +27,7 @@ composer require finnegan/cds-api
 
 ## Configuration
 
-You can configure the API in the boot method of your AppServiceProvider:
+You can configure the API in the `boot` method of your `AppServiceProvider`:
 ```php
 public function boot ( Api $api )
 {
@@ -45,7 +47,9 @@ public function boot ( Api $api )
 ```
 
 ### Custom endpoints
-You can add a custom endpoint using the `endpoint` method. The method takes 3 parameter:
+You can add a custom endpoint using the `endpoint` method.
+
+The method takes 3 parameter:
 *  the uri;
 *  a controller action or a callback;
 *  one or more http methods.
@@ -70,7 +74,7 @@ public function boot ( Api $api )
             [ 'bar', 'string', 'The description of the second argument.' ],
         ] )
         ->examples ( [
-            [ 'The description of the example.', 'foobar-uri?foo=42' ],
+            [ 'The description of the example.', '/api/foobar-uri?foo=42' ],
         ] );
 }
 ```
