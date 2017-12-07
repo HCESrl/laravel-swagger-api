@@ -30,7 +30,7 @@
                         <p class="clearfix">
                             <a href="{{ route('api.index', ':model') }}" target="_blank"
                                class="float-right">{!! $icons('external-link') !!}</a>
-                            <code>/api/models/<span style="color:orange;">{:model}</span></code>
+                            <code>/api/models/<span style="color:orange;">{model}</span></code>
                             <span class="label success">GET</span>
                         </p>
                         <hr>
@@ -91,8 +91,8 @@
                         <p class="clearfix">
                             <a href="{{ route('api.show', ['model'=>':model', 'id'=>':id']) }}" target="_blank"
                                class="float-right">{!! $icons('external-link') !!}</a>
-                            <code>/api/models/<span style="color:orange;">{:model}</span>/<span
-                                        style="color:orange;">{:id}</span></code>
+                            <code>/api/models/<span style="color:orange;">{model}</span>/<span
+                                        style="color:orange;">{id}</span></code>
                             <span class="label success">GET</span>
                         </p>
                         <hr>
@@ -118,12 +118,12 @@
     @endif
     @if (count($endpoints))
         <div class="box is-active" id="{{$id = uniqid()}}" data-toggler=".is-active">
-            <a class="title" data-toggle="{{$id}}">Other Endpoints</a>
+            <a class="title" data-toggle="{{$id}}">{{ count($models) ? 'Other' : '' }} Endpoints</a>
             <div class="content">
                 @foreach($endpoints as $endpoint)
                     <div class="callout {{ array_get($methodMap, strtoupper (array_first((array)$endpoint->methods))) }} }}">
                         <p class="clearfix">
-                            <code>/api/{{ $endpoint->uri }}</code>
+                            <code>/api/{!! preg_replace('#({[^}]+})#', '<span style="color:orange;">$1</span>', $endpoint->uri) !!}</code>
                             @foreach((array)$endpoint->methods as $method)
                                 <span class="label {{ array_get($methodMap, strtoupper ($method)) }}">{{ strtoupper ($method) }}</span>
                             @endforeach
