@@ -3,7 +3,12 @@
 namespace Finnegan\Api;
 
 
+use Finnegan\Api\Endpoints\AggregateEndpoint;
+use Finnegan\Api\Endpoints\ApiEndpoint;
 use Illuminate\Contracts\Routing\Registrar;
+use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 
 class Api
@@ -68,6 +73,30 @@ class Api
 	
 	
 	/**
+	 * @param string $uri
+	 * @param array  $models
+	 * @param string $methods
+	 * @return ApiEndpoint
+	 */
+	public function aggregate ( $uri, array $models, $methods = 'get' )
+	{
+		$action = function () use ( $models ) {
+			$data = Collection::make ();
+			foreach ( $models as $modelClass )
+			{
+				$model = new $modelClass;
+				$data [ Str::plural ( $model->name () ) ] = call_user_func ( [ $model, 'all' ] );
+			}
+			return Resource::collection ( $data );
+		};
+		
+		$endpoint = new AggregateEndpoint( compact ( 'uri', 'action', 'methods', 'models' ) );
+		
+		return $this->registerEndpoint ( $endpoint );
+	}
+	
+	
+	/**
 	 * @param string          $uri
 	 * @param string|callable $action
 	 * @param string          $methods
@@ -77,6 +106,16 @@ class Api
 	{
 		$endpoint = new ApiEndpoint( compact ( 'uri', 'action', 'methods' ) );
 		
+		return $this->registerEndpoint ( $endpoint );
+	}
+	
+	
+	/**
+	 * @param ApiEndpoint $endpoint
+	 * @return ApiEndpoint
+	 */
+	protected function registerEndpoint ( ApiEndpoint $endpoint )
+	{
 		$this->endpoints[] = $endpoint;
 		
 		$attributes = [

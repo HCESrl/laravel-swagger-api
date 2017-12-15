@@ -1,6 +1,6 @@
 <?php
 
-namespace Finnegan\Api;
+namespace Finnegan\Api\Endpoints;
 
 
 use Illuminate\Support\Fluent;
