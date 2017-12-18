@@ -3,7 +3,6 @@
 namespace Finnegan\Api\Http\Controllers;
 
 
-use Finnegan\Api\ApiServer;
 use Finnegan\Api\Endpoints\ModelsEndpoint;
 use Finnegan\Models\Model;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -16,20 +15,13 @@ class ModelsEndpointController extends IlluminateController
 {
 	
 	/**
-	 * @var ApiServer
-	 */
-	protected $api;
-	
-	/**
 	 * @var ModelsEndpoint
 	 */
 	protected $endpoint;
 	
 	
-	public function __construct ( ApiServer $api, ModelsEndpoint $endpoint )
+	public function __construct ( ModelsEndpoint $endpoint )
 	{
-		$this->api = $api;
-		
 		$this->endpoint = $endpoint;
 	}
 	

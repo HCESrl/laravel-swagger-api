@@ -29,7 +29,7 @@ composer require finnegan/cds-api
 
 You can configure the API in the `boot` method of your `AppServiceProvider`:
 ```php
-public function boot ( Api $api )
+public function boot ( ApiServer $api )
 {
     [...]
 }
@@ -37,12 +37,12 @@ public function boot ( Api $api )
 
 ### Models RESTful API
 The package has a built-in feature to expose your models through the API via a Resource Controller. To add a model to
-the whitelist simply call the `model` method with the model class as argument:
+the whitelist simply call the `models` method with the model class as argument:
 
 ```php
-public function boot ( Api $api )
+public function boot ( ApiServer $api )
 {
-    $api->model ( 'App\\Page' );
+    $api->models ( 'App\\Page' );
 }
 ```
 
@@ -55,17 +55,17 @@ The method takes 3 parameter:
 *  one or more http methods.
 
 ```php
-public function boot ( Api $api )
+public function boot ( ApiServer $api )
 {
     $api->endpoint ( 'foobar/uri', 'App\\ApiController@handlerFunction', 'post' );
 }
 ```
 
-The `endpoint` method returns an instance of ApiEndpoint that can be use to configure the endpoint metadata shown in
-the API manifest
+The `endpoint` method returns an instance of BaseEndpoint that can be use to configure the endpoint metadata shown in
+the API manifest.
 
 ```php
-public function boot ( Api $api )
+public function boot ( ApiServer $api )
 {
     $api->endpoint ( 'foobar/uri', 'App\\ApiController@handlerFunction', 'post' )
         ->description ( 'The description of the endpoint' )
@@ -81,7 +81,7 @@ public function boot ( Api $api )
 
 ## The API Manifest
 The package also contains a tool called API Manifest that shows an automatically generated API documentation. You can
-access the manifest from the developer toolbar in the admin area.
+access the manifest from the developer sidebar in the admin area.
 
 ## License
 

@@ -22,8 +22,6 @@ class ApiServiceProvider extends ServiceProvider
 	{
 		$this->app->singleton ( ApiServer::class );
 		
-		$this->app->alias ( Api::class, ApiServer::class );
-		
 		$this->app->singleton ( ModelsEndpoint::class, function () {
 			$endpoint = new ModelsEndpoint;
 			
@@ -60,7 +58,7 @@ class ApiServiceProvider extends ServiceProvider
 	
 	public function provides ()
 	{
-		return [ ApiServer::class, Api::class ];
+		return [ ApiServer::class ];
 	}
 	
 }
