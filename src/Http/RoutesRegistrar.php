@@ -1,6 +1,6 @@
 <?php
 
-namespace Finnegan\Api;
+namespace Finnegan\Api\Http;
 
 
 use Finnegan\Routing\Registrars\AbstractRegistrar;
@@ -11,7 +11,7 @@ use Spatie\Permission\Middlewares\PermissionMiddleware;
 class RoutesRegistrar extends AbstractRegistrar
 {
 	
-	protected $controller = AdminController::class;
+	protected $controller = Controllers\AdminController::class;
 	
 	
 	public function register ()

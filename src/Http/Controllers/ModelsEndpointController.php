@@ -1,8 +1,10 @@
 <?php
 
-namespace Finnegan\Api;
+namespace Finnegan\Api\Http\Controllers;
 
 
+use Finnegan\Api\ApiServer;
+use Finnegan\Api\Endpoints\ModelsEndpoint;
 use Finnegan\Models\Model;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
@@ -10,18 +12,25 @@ use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Routing\Controller as IlluminateController;
 
 
-class Controller extends IlluminateController
+class ModelsEndpointController extends IlluminateController
 {
 	
 	/**
-	 * @var Api
+	 * @var ApiServer
 	 */
 	protected $api;
 	
+	/**
+	 * @var ModelsEndpoint
+	 */
+	protected $endpoint;
 	
-	public function __construct ( Api $api )
+	
+	public function __construct ( ApiServer $api, ModelsEndpoint $endpoint )
 	{
 		$this->api = $api;
+		
+		$this->endpoint = $endpoint;
 	}
 	
 	
@@ -68,7 +77,7 @@ class Controller extends IlluminateController
 	
 	protected function authorize ( Model $model )
 	{
-		if ( ! $this->api->isWhitelisted ( get_class ( $model ) ) )
+		if ( ! $this->endpoint->isWhitelisted ( get_class ( $model ) ) )
 		{
 			throw new AuthorizationException( 'This action is unauthorized.' );
 		}
