@@ -18,11 +18,14 @@ class RoutesRegistrar extends AbstractRegistrar
 	{
 		$this->secureGroup ( function ( Registrar $router ) {
 			$router->group (
-				[ 'middleware' => PermissionMiddleware::class . ':developer_tools' ],
+				[
+					'middleware' => PermissionMiddleware::class . ':developer_tools',
+					'prefix'     => 'tools/api-manifest',
+				],
 				function ( Registrar $router ) {
 					
-					$router->get ( 'tools/api-manifest', "{$this->controller}@manifest" )
-						   ->name ( 'api-manifest' );
+					$router->get ( '/export.raml', "{$this->controller}@manifestExport" )->name ( 'api-manifest-export' );
+					$router->get ( '/', "{$this->controller}@manifest" )->name ( 'api-manifest' );
 					
 				} );
 		} );

@@ -43,4 +43,11 @@ class AdminController extends IlluminateController
 		] );
 	}
 	
+	
+	public function manifestExport ()
+	{
+		return response ()->view ( 'finnegan-api::raml', [ 'api' => $this->api ] )
+						  ->header ( 'Content-Type', 'application/raml+yaml' );
+	}
+	
 }

@@ -7,6 +7,11 @@
     {!! $icons($icon) . ' ' . $title !!}
 @stop
 
+@section('model-actions')
+    <a class="button warning" href="{{ route ('admin.api-manifest-export') }}">
+        <i class="fa fa-download"></i> Export RAML</a>
+@stop
+
 @section('content')
     @if (count($endpoints))
         <div class="box is-active" id="{{$id = uniqid()}}" data-toggler=".is-active">
