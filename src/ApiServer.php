@@ -4,6 +4,7 @@ namespace Finnegan\Api;
 
 
 use Finnegan\Api\Endpoints\EndpointInterface;
+use Finnegan\Api\Endpoints\ModelsEndpoint;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Routing\Registrar;
 
@@ -76,21 +77,21 @@ class ApiServer
 	
 	/**
 	 * @param string $uri
-	 * @param array  $models
+	 * @param array  $resources
 	 * @param string $methods
 	 * @return Endpoints\AggregateEndpoint|EndpointInterface
 	 */
-	public function aggregate ( $uri, array $models, $methods = 'get' )
+	public function aggregate ( $uri, array $resources, $methods = 'get' )
 	{
 		return $this->registerEndpoint (
-			new Endpoints\AggregateEndpoint( compact ( 'uri', 'methods', 'models' ) )
+			new Endpoints\AggregateEndpoint( compact ( 'uri', 'methods', 'resources' ) )
 		);
 	}
 	
 	
 	/**
 	 * @param string|array $models
-	 * @return ApiServer
+	 * @return ModelsEndpoint
 	 */
 	public function models ( $models )
 	{
@@ -105,7 +106,7 @@ class ApiServer
 			$this->endpoints[] = $endpoint;
 		}
 		
-		return $this;
+		return $endpoint;
 	}
 	
 }

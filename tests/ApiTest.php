@@ -3,7 +3,6 @@
 namespace Finnegan\Api\Tests;
 
 
-use Finnegan\Api\ApiServer;
 use Finnegan\Api\Endpoints\AggregateEndpoint;
 use Finnegan\Api\Endpoints\BaseEndpoint;
 use Finnegan\Api\Endpoints\EndpointInterface;
@@ -36,8 +35,8 @@ class ApiTest extends TestCase
 		
 		$this->assertInstanceOf ( AggregateEndpoint::class, $endpoint );
 		
-		$this->assertInternalType ( 'array', $endpoint->models );
-		$this->assertEquals ( 2, count ( $endpoint->models ) );
+		$this->assertInternalType ( 'array', $endpoint->resources );
+		$this->assertEquals ( 2, count ( $endpoint->resources ) );
 	}
 	
 	
@@ -45,7 +44,7 @@ class ApiTest extends TestCase
 	{
 		$model = 'App\\Page';
 		
-		$this->assertInstanceOf ( ApiServer::class, $this->api->models ( $model ) );
+		$this->assertInstanceOf ( ModelsEndpoint::class, $this->api->models ( $model ) );
 		
 		$this->assertTrue ( $this->app->resolved ( ModelsEndpoint::class ) );
 	}
