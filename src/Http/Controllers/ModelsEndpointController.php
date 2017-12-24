@@ -28,6 +28,8 @@ class ModelsEndpointController extends IlluminateController
 	
 	/**
 	 * @todo add support for 'all' parameter
+	 * @param Request $request
+	 * @param Model   $model
 	 */
 	public function index ( Request $request, Model $model )
 	{
@@ -46,9 +48,9 @@ class ModelsEndpointController extends IlluminateController
 		}
 		
 		$resource = $builder->paginate ();
-		if ( method_exists ( $model, '__toApiResourceCollection' ) )
+		if ( method_exists ( $model, 'toApiResourceCollection' ) )
 		{
-			return $model->__toApiResourceCollection ( $resource );
+			return $model->toApiResourceCollection ( $resource );
 		}
 		return Resource::collection ( $resource );
 	}
@@ -59,9 +61,9 @@ class ModelsEndpointController extends IlluminateController
 		$this->authorize ( $model );
 		
 		$resource = $model->findOrFail ( $id );
-		if ( method_exists ( $model, '__toApiResource' ) )
+		if ( method_exists ( $model, 'toApiResource' ) )
 		{
-			return $model->__toApiResource ( $resource );
+			return $model->toApiResource ( $resource );
 		}
 		return new Resource( $resource );
 	}

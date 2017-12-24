@@ -10,8 +10,8 @@ use Illuminate\Support\Str;
 
 
 /**
- * @property array models
- * @method AggregateEndpoint models( array $models )
+ * @property array resources
+ * @method AggregateEndpoint resources( array $resources )
  */
 class AggregateEndpoint extends BaseEndpoint
 {
@@ -24,16 +24,28 @@ class AggregateEndpoint extends BaseEndpoint
 	public function register ( Registrar $router )
 	{
 		$this->action ( function () {
-			$data = Collection::make ();
-			foreach ( $this->models as $modelClass )
-			{
-				$model = new $modelClass;
-				$data [ Str::plural ( $model->name () ) ] = call_user_func ( [ $model, 'all' ] );
-			}
-			return Resource::collection ( $data );
+			return $this->aggregate ();
 		} );
 		
 		return parent::register ( $router );
+	}
+	
+	
+	protected function aggregate ()
+	{
+		$data = Collection::make ();
+		foreach ( $this->resources as $name => $resource )
+		{
+			if ( is_string ( $name ) and is_callable ( $resource ) )
+			{
+				$data[ $name ] = Collection::make ( app ()->call ( $resource ) );
+			} elseif ( class_exists ( $resource ) )
+			{
+				$model = new $resource;
+				$data [ Str::plural ( $model->name () ) ] = call_user_func ( [ $model, 'all' ] );
+			}
+		}
+		return Resource::collection ( $data );
 	}
 	
 	
