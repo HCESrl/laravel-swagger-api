@@ -3,7 +3,10 @@
 namespace Finnegan\Api\Endpoints;
 
 
+use Calcinai\Strut\Definitions\Operation;
+use Calcinai\Strut\Definitions\PathItem;
 use Illuminate\Contracts\Routing\Registrar;
+use Illuminate\Support\Str;
 
 
 /**
@@ -36,9 +39,21 @@ class BaseEndpoint extends AbstractEndpoint
 	}
 	
 	
-	public function view ()
+	public function toSwaggerPath ()
 	{
-		return 'endpoint';
+		$path = PathItem::create ();
+		
+		foreach ( (array) $this->methods as $method )
+		{
+			call_user_func_array ( [ $path, 'set' . Str::studly ( $method ) ], [
+				Operation::create ()
+						 ->setSummary ( $this->summary )
+						 ->setDescription ( $this->description )
+						 ->setOperationId ( Str::camel ( $this->uri ) )
+			] );
+		}
+		
+		return $path;
 	}
 	
 	

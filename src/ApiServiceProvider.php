@@ -4,11 +4,12 @@ namespace Finnegan\Api;
 
 
 use Finnegan\Api\Endpoints\ModelsEndpoint;
-use Finnegan\Finnegan;
+use Finnegan\Api\Http\Controllers\AdminController;
 use Finnegan\Layout\MenuRegister;
 use Finnegan\Layout\Icons\IconsManager;
 use Finnegan\Layout\ViewComposer;
 use Illuminate\Contracts\Routing\Registrar;
+use Illuminate\Routing\Route;
 use Illuminate\Support\ServiceProvider;
 
 
@@ -30,29 +31,62 @@ class ApiServiceProvider extends ServiceProvider
 			return $endpoint;
 		} );
 		
-		$this->app->make ( Finnegan::class )
-				  ->loadRegistrar ( Http\RoutesRegistrar::class );
+		Route::macro ( 'endpoint', function ( $callback ) {
+			dd($this);
+			$endpoint = app ( ApiServer::class )->endpoint ();
+			
+			$callback( $endpoint );
+			
+			return $endpoint;
+		} );
 	}
 	
 	
 	public function boot ( Registrar $router, MenuRegister $menu, IconsManager $icons )
 	{
-		$this->registerRoutes ( $router );
+		$this->initRoutes ( $router );
 		
-		$this->loadViewsFrom ( __DIR__ . '/../resources/views', 'finnegan-api' );
+		$this->publishes ( [ __DIR__ . '/../resources/config.php' => config_path ( 'finnegan-api.php' ) ], 'config' );
 		
-		$this->app[ 'view' ]->composer ( 'finnegan-api::*', ViewComposer::class );
+		$this->mergeConfigFrom ( __DIR__ . '/../resources/config.php', 'finnegan-api' );
 		
-		$menu->tools->route ( 'api-manifest', $icons->icon ( 'plug' ) . ' API Manifest' );
+		if ( $this->isFinneganInstalled () )
+		{
+			$this->loadViewsFrom ( __DIR__ . '/../resources/views', 'finnegan-api' );
+			
+			$this->app[ 'view' ]->composer ( 'finnegan-api::*', ViewComposer::class );
+			
+			$menu->tools->url ( 'api/docs', $icons->icon ( 'plug' ) . ' API Manifest' );
+		}
 	}
 	
 	
-	protected function registerRoutes ( Registrar $router )
+	protected function initRoutes ( Registrar $router )
 	{
+		$router->group (
+			[
+				'prefix'     => 'api/docs',
+				'middleware' => 'api',
+				'namespace'  => 'Finnegan\\Api\\Http\\Controllers',
+			], function ( Registrar $router ) {
+			
+			$router->get ( 'swagger.json', 'AdminController@swaggerJson' )
+				   ->name ( 'finnegan-api.swagger' );
+			
+			$router->get ( '/', 'AdminController@docs' );
+			
+		} );
+		
 		//@todo skippa authorize, da ricontrollare
 		$router->bind ( 'api_model', function ( $name ) {
 			return $this->app[ 'models.resolver' ]->resolve ( $name, false );
 		} );
+	}
+	
+	
+	private function isFinneganInstalled ()
+	{
+		return class_exists ( 'Finnegan\\Finnegan' );
 	}
 	
 	

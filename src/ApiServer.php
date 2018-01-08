@@ -3,10 +3,15 @@
 namespace Finnegan\Api;
 
 
+use Calcinai\Strut\Definitions\Info;
+use Calcinai\Strut\Definitions\PathItem;
+use Calcinai\Strut\Definitions\Paths;
+use Calcinai\Strut\Swagger;
 use Finnegan\Api\Endpoints\EndpointInterface;
 use Finnegan\Api\Endpoints\ModelsEndpoint;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Routing\Registrar;
+use Illuminate\Http\Request;
 
 
 class ApiServer
@@ -107,6 +112,45 @@ class ApiServer
 		}
 		
 		return $endpoint;
+	}
+	
+	
+	/**
+	 * @param Request $request
+	 * @return Swagger
+	 */
+	public function toSwagger ( Request $request )
+	{
+		return Swagger::create ()
+					  ->setInfo ( Info::create ()
+									  ->setTitle ( $this->title () )
+									  ->setDescription ( config ( 'finnegan-api.description' ) )
+									  ->setVersion ( config ( 'config.finnegan-api.version', '1.0.0' ) ) )
+					  ->setHost ( $request->getHost () )
+					  ->setBasePath ( '/api' )
+					  ->addScheme ( config ( 'finnegan-api.scheme', $request->getScheme () ) )
+					  ->setConsumes ( [ 'application/json' ] )
+					  ->setProduces ( [ 'application/json' ] )
+					  ->setPaths ( $this->getSwaggerPaths () );
+	}
+	
+	
+	public function title ()
+	{
+		return config ( 'app.name' ) . ' API';
+	}
+	
+	
+	protected function getSwaggerPaths ()
+	{
+		$paths = Paths::create ();
+		
+		foreach ( $this->endpoints as $endpoint )
+		{
+			$paths->set ( '/' . trim ( $endpoint->uri, '/' ), $endpoint->toSwaggerPath () );
+		}
+		
+		return $paths;
 	}
 	
 }

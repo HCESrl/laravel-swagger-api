@@ -3,7 +3,14 @@
 namespace Finnegan\Api\Http\Controllers;
 
 
+use Calcinai\Strut\Definitions\Info;
+use Calcinai\Strut\Definitions\License;
+use Calcinai\Strut\Definitions\Operation;
+use Calcinai\Strut\Definitions\PathItem;
+use Calcinai\Strut\Definitions\Paths;
+use Calcinai\Strut\Swagger;
 use Finnegan\Api\ApiServer;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as IlluminateController;
 
 
@@ -22,32 +29,23 @@ class AdminController extends IlluminateController
 	}
 	
 	
-	public function manifest ()
+	public function docs ( Request $request )
 	{
-		return view ( 'finnegan-api::manifest', [
-			'title'             => 'API Manifest',
-			'icon'              => 'plug',
-			'endpoints'         => $this->api->getEndpoints (),
-			'methodMap'         => [
-				'GET'    => 'success',
-				'HEAD'   => 'secondary',
-				'POST'   => 'primary',
-				'PUT'    => 'warning',
-				'PATCH'  => 'secondary',
-				'DELETE' => 'alert'
-			],
-			'modelNameCallback' => function ( $class ) {
-				$reflection = new \ReflectionClass( $class );
-				return strtolower ( str_plural ( $reflection->getShortName () ) );
-			},
+		config ( [ 'l5-swagger.api.title' => $this->api->title () ] );
+		
+		return view ( 'l5-swagger::index', [
+			'secure'           => $request->secure (),
+			'urlToDocs'        => route ( 'finnegan-api.swagger' ),
+			'operationsSorter' => config ( 'l5-swagger.operations_sort' ),
+			'configUrl'        => config ( 'l5-swagger.additional_config_url' ),
+			'validatorUrl'     => config ( 'l5-swagger.validator_url' ),
 		] );
 	}
 	
 	
-	public function manifestExport ()
+	public function swaggerJson ( Request $request )
 	{
-		return response ()->view ( 'finnegan-api::raml', [ 'api' => $this->api ] )
-						  ->header ( 'Content-Type', 'application/raml+yaml' );
+		return $this->api->toSwagger ( $request );
 	}
 	
 }

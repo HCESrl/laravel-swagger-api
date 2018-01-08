@@ -25,23 +25,24 @@
         }
     ],
     "require":{
-        "finnegan/cds":"1.6.*"
+        "calcinai/strut":"^0.2.4",
+        "darkaonline/l5-swagger":"^5.5"
     },
-    "require-dev": {
-        "phpunit/phpunit": "^6.5",
-        "orchestra/testbench": "^3.5"
+    "require-dev":{
+        "phpunit/phpunit":"^6.5",
+        "orchestra/testbench":"^3.5"
     },
-    "suggest": {
-        "barryvdh/laravel-cors": "Required to send CORS headers (^0.10.0)"
+    "suggest":{
+        "barryvdh/laravel-cors":"Required to send CORS headers (^0.10.0)"
     },
     "autoload":{
         "psr-4":{
             "Finnegan\\Api\\":"src"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Finnegan\\Api\\Tests\\": "tests/"
+    "autoload-dev":{
+        "psr-4":{
+            "Finnegan\\Api\\Tests\\":"tests/"
         }
     },
     "extra":{
