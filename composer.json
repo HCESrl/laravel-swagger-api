@@ -25,30 +25,38 @@
         }
     ],
     "require":{
-        "finnegan/cds":"1.6.*"
+        "illuminate/contracts" : "5.5.*",
+        "illuminate/http" : "5.5.*",
+        "illuminate/routing" : "5.5.*",
+        "illuminate/support": "5.5.*",
+        "calcinai/strut":"^0.2.4"
     },
-    "require-dev": {
-        "phpunit/phpunit": "^6.5",
-        "orchestra/testbench": "^3.5"
+    "require-dev":{
+        "phpunit/phpunit":"^6.5",
+        "orchestra/testbench":"^3.5",
+        "swagger-api/swagger-ui":"^5.5"
     },
-    "suggest": {
-        "barryvdh/laravel-cors": "Required to send CORS headers (^0.10.0)"
+    "suggest":{
+        "barryvdh/laravel-cors":"Required to send CORS headers (^0.10.0)"
     },
     "autoload":{
         "psr-4":{
             "Finnegan\\Api\\":"src"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Finnegan\\Api\\Tests\\": "tests/"
+    "autoload-dev":{
+        "psr-4":{
+            "Finnegan\\Api\\Tests\\":"tests/"
         }
     },
     "extra":{
         "laravel":{
             "providers":[
                 "Finnegan\\Api\\ApiServiceProvider"
-            ]
+            ],
+            "aliases":{
+                "Api":"Finnegan\\Api\\ApiFacade"
+            }
         }
     }
 }

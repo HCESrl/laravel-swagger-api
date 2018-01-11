@@ -20,10 +20,10 @@ class ModelsEndpointController extends IlluminateController
 	protected $endpoint;
 	
 	
-	public function __construct ( ModelsEndpoint $endpoint )
+	/*public function __construct ( ModelsEndpoint $endpoint )
 	{
 		$this->endpoint = $endpoint;
-	}
+	}*/
 	
 	
 	/**

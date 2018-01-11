@@ -3,6 +3,7 @@
 namespace Finnegan\Api\Endpoints;
 
 
+use Calcinai\Strut\Definitions\PathItem;
 use Finnegan\Api\Http\Controllers\ModelsEndpointController;
 use Illuminate\Contracts\Routing\Registrar;
 
@@ -61,12 +62,9 @@ class ModelsEndpoint extends AbstractEndpoint
 	}
 	
 	
-	/**
-	 * @return string
-	 */
-	public function view ()
+	public function toSwaggerPath ()
 	{
-		return 'endpoint-models';
+		return PathItem::create ();
 	}
 	
 	
