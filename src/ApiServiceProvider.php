@@ -32,9 +32,11 @@ class ApiServiceProvider extends ServiceProvider
 	{
 		$this->initRoutes ( $router );
 		
-		$this->loadViewsFrom ( __DIR__ . '/../resources/views', 'finnegan-api' );
+		$resourcesPath = __DIR__ . '/../resources';
 		
-		$this->publishes ( [ __DIR__ . '/../resources/config.php' => config_path ( 'finnegan-api.php' ) ], 'config' );
+		$this->loadViewsFrom ( "$resourcesPath/views", 'finnegan-api' );
+		
+		$this->publishes ( [ "$resourcesPath/config.php" => config_path ( 'finnegan-api.php' ) ], 'config' );
 		
 		$swaggerPath = base_path ( 'vendor/swagger-api/swagger-ui/dist/' );
 		$this->publishes ( [ $swaggerPath => public_path ( 'vendor/swagger-ui' ) ], 'public' );
