@@ -20,10 +20,6 @@ class ApiTest extends TestCase
 		
 		$this->assertInstanceOf ( BaseEndpoint::class, $endpoint );
 		
-		$endpoints = $this->api->getEndpoints ();
-		$this->assertInternalType ( 'array', $endpoints );
-		$this->assertEquals ( 1, count ( $endpoints ) );
-		
 		$this->assertInstanceOf ( BaseEndpoint::class, array_first ( $endpoints ) );
 		$this->assertInstanceOf ( EndpointInterface::class, array_first ( $endpoints ) );
 	}

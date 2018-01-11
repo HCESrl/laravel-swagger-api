@@ -16,18 +16,21 @@ class RoutesRegistrar extends AbstractRegistrar
 	
 	public function register ()
 	{
+		
 		$this->secureGroup ( function ( Registrar $router ) {
 			$router->group (
 				[
+					'prefix'     => 'tools',
 					'middleware' => PermissionMiddleware::class . ':developer_tools',
-					'prefix'     => 'tools/api-manifest',
 				],
 				function ( Registrar $router ) {
 					
-					$router->get ( '/export.raml', "{$this->controller}@manifestExport" )->name ( 'api-manifest-export' );
-					$router->get ( '/', "{$this->controller}@manifest" )->name ( 'api-manifest' );
+					$router->view ( 'api-docs', 'finnegan-api::embed' )
+						   ->name ( 'api-docs' );
 					
 				} );
 		} );
+		
 	}
+	
 }
