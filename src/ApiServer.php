@@ -132,6 +132,18 @@ class ApiServer implements \JsonSerializable
 	
 	
 	/**
+	 * @param array $tags
+	 */
+	public function tags ( array $tags )
+	{
+		foreach ( $tags as $name => $description )
+		{
+			$this->tag ( $name, $description );
+		}
+	}
+	
+	
+	/**
 	 * @param string          $version
 	 * @param \Closure|string $routes
 	 * @return void
