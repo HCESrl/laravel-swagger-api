@@ -26,51 +26,66 @@ class Operation extends StrutOperation
 	
 	
 	/**
-	 * @param string   $name
-	 * @param callable $callback
+	 * @param string          $name
+	 * @param string|callable $descriptionOrCallback
+	 * @param string          $type
+	 * @param bool            $required
 	 * @return Operation
 	 */
-	public function addQueryParameter ( $name, $callback = null )
+	public function addQueryParameter ( $name, $descriptionOrCallback = null, $type = 'string', $required = true )
 	{
-		return $this->registerParameter ( QueryParameterSubSchema::class, $name, $callback );
+		return $this->registerParameter ( QueryParameterSubSchema::class, $name, $descriptionOrCallback, $type, $required );
 	}
 	
 	
 	/**
-	 * @param string   $name
-	 * @param callable $callback
+	 * @param string          $name
+	 * @param string|callable $descriptionOrCallback
+	 * @param string          $type
+	 * @param bool            $required
 	 * @return Operation
 	 */
-	public function addPathParameter ( $name, $callback = null )
+	public function addPathParameter ( $name, $descriptionOrCallback = null, $type = 'string', $required = true )
 	{
-		return $this->registerParameter ( PathParameterSubSchema::class, $name, $callback );
+		return $this->registerParameter ( PathParameterSubSchema::class, $name, $descriptionOrCallback, $type, $required );
 	}
 	
 	
 	/**
-	 * @param string   $name
-	 * @param callable $callback
+	 * @param string          $name
+	 * @param string|callable $descriptionOrCallback
+	 * @param string          $type
+	 * @param bool            $required
 	 * @return Operation
 	 */
-	public function addFormDataParameter ( $name, $callback = null )
+	public function addFormDataParameter ( $name, $descriptionOrCallback = null, $type = 'string', $required = true )
 	{
-		return $this->registerParameter ( FormDataParameterSubSchema::class, $name, $callback );
-	}
-	
-	
-	/**
-	 * @param string   $parameter
-	 * @param string   $name
-	 * @param callable $callback
-	 * @return Operation
-	 */
-	protected function registerParameter ( $parameter, $name, $callback = null )
-	{
-		$parameter = new $parameter( compact ( 'name' ) );
-		
-		if ( $callback instanceof \Closure )
+		if ( ! $this->has ( 'consumes' ) )
 		{
-			$callback( $parameter );
+			$this->setConsumes ( [ 'application/x-www-form-urlencoded' ] );
+		}
+		return $this->registerParameter ( FormDataParameterSubSchema::class, $name, $descriptionOrCallback, $type, $required );
+	}
+	
+	
+	/**
+	 * @param string          $parameterType
+	 * @param string          $name
+	 * @param string|callable $descriptionOrCallback
+	 * @param string          $type
+	 * @param bool            $required
+	 * @return Operation
+	 */
+	protected function registerParameter ( $parameterType, $name, $descriptionOrCallback = null, $type = 'string', $required = true )
+	{
+		$parameter = new $parameterType( compact ( 'name', 'type', 'required' ) );
+		
+		if ( $descriptionOrCallback instanceof \Closure )
+		{
+			$descriptionOrCallback( $parameter );
+		} elseif ( is_string ( $descriptionOrCallback ) )
+		{
+			$parameter->setDescription ( $descriptionOrCallback );
 		}
 		
 		return $this->addParameter ( $parameter );
@@ -113,8 +128,6 @@ class Operation extends StrutOperation
 	 */
 	public function initOperationId ( Route $route )
 	{
-		//$method = strtolower ( array_first ( $route->methods () ) );
-		
 		$operationId = Str::camel ( $route->getActionMethod () );
 		
 		return $this->setOperationId ( $operationId );
