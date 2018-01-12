@@ -3,19 +3,20 @@
 namespace Finnegan\Api;
 
 
+use Calcinai\Strut\Definitions\Definitions;
 use Calcinai\Strut\Definitions\Info;
 use Calcinai\Strut\Definitions\Paths;
+use Calcinai\Strut\Definitions\Schema;
+use Calcinai\Strut\Definitions\Schema\Properties\Properties;
 use Calcinai\Strut\Definitions\Tag;
 use Calcinai\Strut\Swagger;
 use Finnegan\Api\Endpoints\ResourceEndpoint;
 use Finnegan\Api\Http\Controllers\AggregateController;
-use Finnegan\Api\Http\Controllers\SwaggerController;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Http\Request;
 use Illuminate\Routing\PendingResourceRegistration;
 use Illuminate\Routing\ResourceRegistrar;
-use Illuminate\Routing\Route;
 use Illuminate\Support\Traits\Macroable;
 
 
@@ -80,7 +81,8 @@ class ApiServer implements \JsonSerializable
 								->addScheme ( config ( 'finnegan-api.scheme', $request->getScheme () ) )
 								->setConsumes ( [ 'application/json' ] )
 								->setProduces ( [ 'application/json' ] )
-								->setPaths ( Paths::create () );
+								->setPaths ( Paths::create () )
+								->setDefinitions ( Definitions::create () );
 	}
 	
 	
@@ -132,14 +134,17 @@ class ApiServer implements \JsonSerializable
 	
 	
 	/**
-	 * @param array $tags
+	 * @param string $name
+	 * @return Definition
+	 * @throws \Exception
 	 */
-	public function tags ( array $tags )
+	public function definition ( $name )
 	{
-		foreach ( $tags as $name => $description )
-		{
-			$this->tag ( $name, $description );
-		}
+		$definition = Definition::create ()->setName ( $name );
+		
+		$this->swagger->getDefinitions ()->set ( $name, $definition );
+		
+		return $definition;
 	}
 	
 	
