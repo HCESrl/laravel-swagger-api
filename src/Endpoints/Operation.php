@@ -7,12 +7,23 @@ use Calcinai\Strut\Definitions\FormDataParameterSubSchema;
 use Calcinai\Strut\Definitions\Operation as StrutOperation;
 use Calcinai\Strut\Definitions\PathParameterSubSchema;
 use Calcinai\Strut\Definitions\QueryParameterSubSchema;
+use Calcinai\Strut\Definitions\Response;
+use Calcinai\Strut\Definitions\Responses;
+use Finnegan\Api\Definition;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Str;
 
 
 class Operation extends StrutOperation
 {
+	
+	public function __construct ( $data = [] )
+	{
+		parent::__construct ( $data );
+		
+		$this->setResponses ( Responses::create () );
+	}
+	
 	
 	/**
 	 * @param string   $name
@@ -63,6 +74,22 @@ class Operation extends StrutOperation
 		}
 		
 		return $this->addParameter ( $parameter );
+	}
+	
+	
+	/**
+	 * @param integer $code
+	 * @param string  $description
+	 * @return Operation
+	 * @throws \Exception
+	 */
+	public function addResponse ( $code, $description )
+	{
+		$response = Response::create ( compact ( 'description' ) );
+		
+		$this->getResponses ()->set ( $code, $response );
+		
+		return $this;
 	}
 	
 	
