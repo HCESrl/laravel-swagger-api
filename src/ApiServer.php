@@ -34,7 +34,7 @@ class ApiServer implements \JsonSerializable
 	
 	use Macroable
 	{
-		__call as __callMacro;
+		__call as macroCall;
 	}
 	
 	/**
@@ -119,15 +119,21 @@ class ApiServer implements \JsonSerializable
 	
 	
 	/**
-	 * @param string $name
-	 * @param string $description
+	 * @param string          $name
+	 * @param string          $description
+	 * @param \Closure|string $callback
 	 * @return Tag
 	 */
-	public function tag ( $name, $description = null )
+	public function tag ( $name, $description = null, $callback = null )
 	{
 		$tag = new Tag( compact ( 'name', 'description' ) );
 		
 		$this->swagger->addTag ( $tag );
+		
+		if ( ! is_null ( $callback ) )
+		{
+			$this->router->group ( [ 'tags' => $name ], $callback );
+		}
 		
 		return $tag;
 	}
@@ -135,6 +141,7 @@ class ApiServer implements \JsonSerializable
 	
 	/**
 	 * @param array $tags
+	 * @return ApiServer
 	 */
 	public function tags ( array $tags )
 	{
@@ -142,6 +149,7 @@ class ApiServer implements \JsonSerializable
 		{
 			$this->tag ( $name, $description );
 		}
+		return $this;
 	}
 	
 	
@@ -175,7 +183,7 @@ class ApiServer implements \JsonSerializable
 	 * @param string $name
 	 * @param string $controller
 	 * @param array  $options
-	 * @return PendingResourceRegistration
+	 * @return ResourceEndpoint
 	 */
 	public function resource ( $name, $controller, array $options = [] )
 	{
@@ -228,7 +236,7 @@ class ApiServer implements \JsonSerializable
 			return $operation;
 		}
 		
-		return $this->__callMacro ( $name, $arguments );
+		return $this->macroCall ( $name, $arguments );
 	}
 	
 	
