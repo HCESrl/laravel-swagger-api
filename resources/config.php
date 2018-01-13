@@ -10,7 +10,7 @@ return [
 	/**
 	 * The API title.
 	 */
-	'title'       => 'Finnegan API',
+	'title'       => 'Laravel API',
 	
 	/**
 	 * The API description.
