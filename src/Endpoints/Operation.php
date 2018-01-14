@@ -11,6 +11,7 @@ use Calcinai\Strut\Definitions\Response;
 use Calcinai\Strut\Definitions\Responses;
 use Finnegan\Api\Definition;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 
@@ -64,6 +65,11 @@ class Operation extends StrutOperation
 			$this->initOperationId ( $route );
 		}
 		
+		if ( config ( 'finnegan-api.parse_route_parameters' ) )
+		{
+			$this->addRouteParameters ( $route );
+		}
+		
 		return $this;
 	}
 	
@@ -95,6 +101,25 @@ class Operation extends StrutOperation
 	
 	
 	/**
+	 * @param Route $route
+	 * @return Operation
+	 */
+	protected function addRouteParameters ( Route $route )
+	{
+		preg_match_all ( '/\{(.*?)\}/', $route->getDomain () . $route->uri (), $matches );
+		
+		array_map ( function ( $match ) {
+			
+			$required = ! Str::endsWith ( $match, '?' );
+			$this->addPathParameter ( trim ( $match, '?' ), null, 'string', $required );
+			
+		}, $matches[ 1 ] );
+		
+		return $this;
+	}
+	
+	
+	/**
 	 * @param string $name
 	 * @param array  $arguments
 	 * @return Endpoint
@@ -118,7 +143,7 @@ class Operation extends StrutOperation
 	 * @param bool            $required
 	 * @return Operation
 	 */
-	public function addQueryParameter ( $name, $descriptionOrCallback = null, $type = 'string', $required = true )
+	public function addQueryParameter ( $name, $descriptionOrCallback = null, $type = 'string', $required = false )
 	{
 		return $this->registerParameter ( QueryParameterSubSchema::class, $name, $descriptionOrCallback, $type, $required );
 	}
@@ -131,7 +156,7 @@ class Operation extends StrutOperation
 	 * @param bool            $required
 	 * @return Operation
 	 */
-	public function addPathParameter ( $name, $descriptionOrCallback = null, $type = 'string', $required = true )
+	public function addPathParameter ( $name, $descriptionOrCallback = null, $type = 'string', $required = false )
 	{
 		return $this->registerParameter ( PathParameterSubSchema::class, $name, $descriptionOrCallback, $type, $required );
 	}
@@ -144,7 +169,7 @@ class Operation extends StrutOperation
 	 * @param bool            $required
 	 * @return Operation
 	 */
-	public function addFormDataParameter ( $name, $descriptionOrCallback = null, $type = 'string', $required = true )
+	public function addFormDataParameter ( $name, $descriptionOrCallback = null, $type = 'string', $required = false )
 	{
 		if ( ! $this->has ( 'consumes' ) )
 		{
@@ -162,9 +187,15 @@ class Operation extends StrutOperation
 	 * @param bool            $required
 	 * @return Operation
 	 */
-	protected function registerParameter ( $parameterType, $name, $descriptionOrCallback = null, $type = 'string', $required = true )
+	protected function registerParameter ( $parameterType, $name, $descriptionOrCallback = null, $type = 'string', $required = false )
 	{
-		$parameter = new $parameterType( compact ( 'name', 'type', 'required' ) );
+		$parameter = $this->getOrCreateParameter ( $parameterType, $name );
+		
+		$parameter->setType ( $type );
+		if ( $required )
+		{
+			$parameter->setRequired ( $required );
+		}
 		
 		if ( $descriptionOrCallback instanceof \Closure )
 		{
@@ -174,7 +205,37 @@ class Operation extends StrutOperation
 			$parameter->setDescription ( $descriptionOrCallback );
 		}
 		
-		return $this->addParameter ( $parameter );
+		return $this;
+	}
+	
+	
+	/**
+	 * @param string $parameterType
+	 * @param string $name
+	 * @return QueryParameterSubSchema|PathParameterSubSchema|FormDataParameterSubSchema
+	 */
+	protected function getOrCreateParameter ( $parameterType, $name )
+	{
+		if ( $this->has ( 'parameters' ) )
+		{
+			$parameters = Collection::make ( $this->getParameters () );
+			
+			$existingParameter = $parameters->filter (
+				function ( $param ) use ( $parameterType, $name ) {
+					return ( $param instanceof $parameterType and $param->getName () === $name );
+				} )->first ();
+			
+			if ( $existingParameter )
+			{
+				return $existingParameter;
+			}
+		}
+		
+		$parameter = new $parameterType( compact ( 'name' ) );
+		
+		$this->addParameter ( $parameter );
+		
+		return $parameter;
 	}
 	
 	
