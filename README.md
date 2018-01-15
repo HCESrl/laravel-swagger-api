@@ -89,7 +89,7 @@ Api::post ( 'post-uri', 'Controller@action' )
 
 > **Note:** the `addBodyParameter` method doesn't accept a `type` parameter, according to the Swagger specification.
 
-If you need a deeper a configuration, you may pass a Closure function instead of a description:
+If you need a deeper configuration for the parameter, you may pass a Closure function instead of a text description:
 ```php
 Api::post ( 'post-uri-2', 'Controller@action' )
     ->addQueryParameter ( 'param-name', function ( $param ) {
@@ -132,6 +132,23 @@ Api::get ( 'some-uri', 'Controller@action' )
 ```
 
 ## Advanced configuration
+
+### General route parameters
+You may need to register different routes using the same parameters (eg. lang or locale) and these could lead to a long
+and difficult to maintein routes file.
+
+To avoid this you can register general reusable route parameters that will be automatically applied when parameters with
+the same are found in the route uris.
+
+```php
+Api::routeParameter ( 'locale' )
+   ->setDescription ( 'The request locale.' )
+   ->setRequired ( true )
+   ->addEnum ( 'en' )
+   ->addEnum ( 'it' );
+   
+Api::get ( '{locale}/some-uri', 'Controller@action' )
+```
 
 ### Tags
 In order to create a [tag](https://swagger.io/specification/#tagObject) for your operations, you may call the `tag` 
