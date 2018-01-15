@@ -2,6 +2,9 @@
 
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
 
+The packages adds a layer on top of the Laravel routing system allowing you to easily add metadata to your routes
+in order to create a [Swagger](https://swagger.io/) compliant API.
+
 FinneganCDS is a web Content Design System built on top of [Laravel framework](http://laravel.com).
 
 ## Installation
@@ -38,10 +41,7 @@ your API specification such as the title, the description, etc.
 Make sure that the `prefix` is the same used in your `RouteServiceProvider` for the api routes.
 
 ### Routing
-The packages adds a layer on top of the Laravel routing system allowing you to easily add metadata to your routes
-in order to create a [Swagger](https://swagger.io/) compliant API.
-
-We provide an `Api` facade that works with the same syntax as the `Route` facade and that you can use directly in your
+The `Api` facade works with the same syntax as the `Route` facade and you can use it directly in your
 `routes/api.php` file.
 
 ```php
@@ -52,10 +52,10 @@ Api::post('some-uri', function () {
 });
 ```
 
-**Note:** the supported methods: `get`, `post`, `put`, `delete`, `patch`, `options`. There's no support for the `match`
-method because every route must associated with a single Operation in the Swagger specification.
+> **Note:** the supported methods: `get`, `post`, `put`, `delete`, `patch`, `options`. There's no support for the `match`
+method because every route must be associated with a single Operation in the Swagger specification.
 
-When you create a new route through the Api facade returns an instance of an [Operation](https://swagger.io/specification/#tagObject) 
+When you create a new route, the Api facade returns an instance of an [Operation](https://swagger.io/specification/#tagObject) 
 object. This object exposes some chainable configuration methods. The following example shows an extensive use of those
 methods.
 
@@ -69,8 +69,60 @@ Api::get('some-uri', 'Controller@action')
     ->setProduces(['application/json']);
 ```
 
-#### Operation parameters
-WIP
+#### Route parameters
+You can define different types of route parameters after creating a route through the following methods:
+*  `addHeaderParameter`
+*  `addQueryParameter`
+*  `addPathParameter`
+*  `addFormDataParameter`
+*  `addBodyParameter`
+
+All these methods accept 4 parameters: name, description, required and type:
+```php
+Api::post ( 'post-uri', 'Controller@action' )
+    ->addHeaderParameter ( 'header-name', 'Some description.' )
+    ->addQueryParameter ( 'query-name', 'Some description.', true, 'integer' )
+    ->addPathParameter ( 'path-name', 'Some description.', true, 'string' )
+    ->addFormDataParameter ( 'formdata-name', 'Some description.', true, 'string' )
+    ->addBodyParameter ( 'param-name', 'Some description.', true );
+```
+
+> **Note:** the `addBodyParameter` method doesn't accept a `type` parameter, according to the Swagger specification.
+
+If you need a deeper a configuration, you may pass a Closure function instead of a description:
+```php
+Api::post ( 'post-uri-2', 'Controller@action' )
+    ->addQueryParameter ( 'param-name', function ( $param ) {
+        $param->setDescription ( 'Some param description' )
+              ->setType('integer')
+              ->setFormat('int32');
+    } );
+```
+
+##### Route path parameter auto-parsing
+When you define a route containg path parameters using the [Laravel syntax](https://laravel.com/docs/5.5/routing#route-parameters),
+the route URI will be automatically parsed for path parameters, both required and optional.
+
+The route:
+```php
+Api::get('some-uri/{param1}/{param2?}', 'Controller@action');
+```
+
+will be parsed and the two path parameters will be added automatically. You can still edit the paramaters configuration:
+
+```php
+Api::get('some-uri/{param1}/{param2?}', 'Controller@action')
+    ->addPathParameter ( 'param1', function( $param ) {
+        $param->setDescription ( 'Some description' );
+     } )
+    ->addPathParameter ( 'param2', 'Some other description.', false, 'integer' );
+```
+
+It is also possible to disable the automatic route parsing from the main config file `config/finnegan-api.php` setting
+`parse_route_parameters` to `false`.
+
+
+#### Responses
 
 
 ## Advanced configuration
@@ -82,7 +134,9 @@ method passing the name of the tag and its description, if needed.
 You can also pass a callback function to create a group of operations automatically tagged with the given tag.
 
 ```php
-Api::tag('foobar', 'Tag description', function() {
+Api::tag('simple-tag');
+
+Api::tag('tag-with-description', 'Tag description', function() {
     Api::get('tagged-uri', 'Controller@action');
 });
 ```
@@ -107,7 +161,7 @@ automatically prefixed and tagged with the given version name.
  * /api/v1/versioned-uri
  */
 Api::tag('v1', function() {
-    Api::get('tagged-uri', 'Controller@action');
+    Api::get('versioned-uri', 'Controller@action');
 });
 
 /**
@@ -122,8 +176,6 @@ Api::tag('v2', function() {
 An aggregate endpoint is an API endpoint that returns a mixed collection of resources, combining both Eloquent models 
 and data generated by Closures.
 
-> **Note:** closures require a non-numeric array key. See the example below.
-
 ```php
 Api::aggregate ( 'aggregate/uri', [
     'App\\Page',
@@ -133,6 +185,9 @@ Api::aggregate ( 'aggregate/uri', [
     },
  ] );
 ```
+
+> **Note:** closures require a non-numeric array key.
+
 
 #### Customize the response
 If you use custom [API Resources](https://laravel.com/docs/5.5/eloquent-resources) to personalize the API data you
