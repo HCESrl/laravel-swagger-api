@@ -14,12 +14,13 @@ class Endpoint extends PathItem
 	/**
 	 * @param string $method
 	 * @param Route  $route
+	 * @param array  $parameters
 	 * @return Operation
 	 */
-	public function getOperation ( $method, Route $route )
+	public function getOperation ( $method, Route $route, array $parameters = [] )
 	{
 		return $this->setMethod ( $method )
-					->setRoute ( $route );
+					->setRoute ( $route, $parameters );
 	}
 	
 	

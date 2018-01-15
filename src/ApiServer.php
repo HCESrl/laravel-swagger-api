@@ -5,6 +5,7 @@ namespace Finnegan\Api;
 
 use Calcinai\Strut\Definitions\Definitions;
 use Calcinai\Strut\Definitions\Info;
+use Calcinai\Strut\Definitions\PathParameterSubSchema;
 use Calcinai\Strut\Definitions\Paths;
 use Calcinai\Strut\Definitions\Schema;
 use Calcinai\Strut\Definitions\Schema\Properties\Properties;
@@ -51,6 +52,11 @@ class ApiServer implements \JsonSerializable
 	 * @var Swagger
 	 */
 	protected $swagger;
+	
+	/**
+	 * @var array|PathParameterSubSchema[]
+	 */
+	protected $parameters = [];
 	
 	/**
 	 * @var array
@@ -215,6 +221,21 @@ class ApiServer implements \JsonSerializable
 	
 	
 	/**
+	 * @param string   $name
+	 * @param \Closure $callback
+	 * @return PathParameterSubSchema
+	 */
+	public function routeParameter ( $name )
+	{
+		$parameter = PathParameterSubSchema::create ( compact ( 'name' ) );
+		
+		$this->parameters[ $name ] = $parameter;
+		
+		return $parameter;
+	}
+	
+	
+	/**
 	 * @param string $name
 	 * @param array  $arguments
 	 * @return mixed
@@ -231,7 +252,7 @@ class ApiServer implements \JsonSerializable
 			$route = call_user_func_array ( [ $this->router, $name ], $arguments );
 			
 			$operation = $this->getEndpointByUri ( $route->uri () )
-							  ->getOperation ( $name, $route );
+							  ->getOperation ( $name, $route, $this->parameters );
 			
 			return $operation;
 		}

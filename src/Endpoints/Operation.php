@@ -13,6 +13,7 @@ use Calcinai\Strut\Definitions\Response;
 use Calcinai\Strut\Definitions\Responses;
 use Finnegan\Api\Definition;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
@@ -54,9 +55,10 @@ class Operation extends StrutOperation
 	
 	/**
 	 * @param Route $route
+	 * @param array $parameters
 	 * @return Operation
 	 */
-	public function setRoute ( Route $route )
+	public function setRoute ( Route $route, array $parameters = [] )
 	{
 		$this->route = $route;
 		
@@ -69,7 +71,7 @@ class Operation extends StrutOperation
 		
 		if ( config ( 'finnegan-api.parse_route_parameters' ) )
 		{
-			$this->addRouteParameters ( $route );
+			$this->addRouteParameters ( $route, $parameters );
 		}
 		
 		return $this;
@@ -104,16 +106,33 @@ class Operation extends StrutOperation
 	
 	/**
 	 * @param Route $route
+	 * @param array $parameters
 	 * @return Operation
 	 */
-	protected function addRouteParameters ( Route $route )
+	protected function addRouteParameters ( Route $route, array $parameters = [] )
 	{
 		preg_match_all ( '/\{(.*?)\}/', $route->getDomain () . $route->uri (), $matches );
 		
-		array_map ( function ( $match ) {
+		array_map ( function ( $match ) use ( $parameters ) {
 			
 			$required = ! Str::endsWith ( $match, '?' );
-			$this->addPathParameter ( trim ( $match, '?' ), null, $required, 'string' );
+			$name = trim ( $match, '?' );
+			
+			if ( Arr::has ( $parameters, $match ) )
+			{
+				$parameter = clone $parameters[ $name ];
+				if ( $required )
+				{
+					$parameter->setRequired ( true );
+				} elseif ( $parameter->has ( 'required' ) )
+				{
+					$parameter->remove ( 'required' );
+				}
+				$this->addParameter ( $parameters[ $name ] );
+			} else
+			{
+				$this->addPathParameter ( $name, null, $required, 'string' );
+			}
 			
 		}, $matches[ 1 ] );
 		
