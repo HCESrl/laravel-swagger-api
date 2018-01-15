@@ -113,7 +113,7 @@ class Operation extends StrutOperation
 		array_map ( function ( $match ) {
 			
 			$required = ! Str::endsWith ( $match, '?' );
-			$this->addPathParameter ( trim ( $match, '?' ), null, 'string', $required );
+			$this->addPathParameter ( trim ( $match, '?' ), null, $required, 'string' );
 			
 		}, $matches[ 1 ] );
 		
@@ -226,6 +226,9 @@ class Operation extends StrutOperation
 		if ( $required )
 		{
 			$parameter->setRequired ( $required );
+		} elseif ( $parameter->has ( 'required' ) )
+		{
+			$parameter->remove ( 'required' );
 		}
 		
 		if ( $descriptionOrCallback instanceof \Closure )
