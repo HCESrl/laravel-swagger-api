@@ -41,6 +41,6 @@ return [
 	/**
 	 * The API subpath to the Swagger UI page (false to disable).
 	 */
-	'swagger_ui_path'        => 'docs',
+	'swagger_ui_path'        => env ( 'APP_DEBUG', false ) ? 'docs' : false,
 
 ];

@@ -29,7 +29,7 @@ class ApiFinneganServiceProvider extends ServiceProvider
 	
 	public function boot ( MenuRegister $menus, IconsManager $icons, Registrar $router )
 	{
-		if ( config ( 'finnegan-api.swagger_ui_path' ) )
+		if ( config ( 'finnegan-api.swagger_json_path' ) and config ( 'finnegan-api.swagger_ui_path' ) )
 		{
 			$this->app->make ( Finnegan::class )
 					  ->loadRegistrar ( RoutesRegistrar::class );
