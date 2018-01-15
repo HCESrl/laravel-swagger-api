@@ -123,7 +123,13 @@ It is also possible to disable the automatic route parsing from the main config 
 
 
 #### Responses
+Use the `addResponse` to define the route response types:
 
+```php
+Api::get ( 'some-uri', 'Controller@action' )
+    ->addResponse ( 200, 'Successful operation' )
+    ->addResponse ( 422, 'Validation error' );
+```
 
 ## Advanced configuration
 
