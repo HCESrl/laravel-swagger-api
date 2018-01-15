@@ -3,7 +3,9 @@
 namespace Finnegan\Api\Endpoints;
 
 
+use Calcinai\Strut\Definitions\BodyParameter;
 use Calcinai\Strut\Definitions\FormDataParameterSubSchema;
+use Calcinai\Strut\Definitions\HeaderParameterSubSchema;
 use Calcinai\Strut\Definitions\Operation as StrutOperation;
 use Calcinai\Strut\Definitions\PathParameterSubSchema;
 use Calcinai\Strut\Definitions\QueryParameterSubSchema;
@@ -139,43 +141,68 @@ class Operation extends StrutOperation
 	/**
 	 * @param string          $name
 	 * @param string|callable $descriptionOrCallback
-	 * @param string          $type
 	 * @param bool            $required
+	 * @param string          $type
 	 * @return Operation
 	 */
-	public function addQueryParameter ( $name, $descriptionOrCallback = null, $type = 'string', $required = false )
+	public function addHeaderParameter ( $name, $descriptionOrCallback = null, $required = false, $type = 'string' )
 	{
-		return $this->registerParameter ( QueryParameterSubSchema::class, $name, $descriptionOrCallback, $type, $required );
+		return $this->registerParameter ( HeaderParameterSubSchema::class, $name, $descriptionOrCallback, $required, $type );
 	}
 	
 	
 	/**
 	 * @param string          $name
 	 * @param string|callable $descriptionOrCallback
-	 * @param string          $type
 	 * @param bool            $required
+	 * @param string          $type
 	 * @return Operation
 	 */
-	public function addPathParameter ( $name, $descriptionOrCallback = null, $type = 'string', $required = false )
+	public function addQueryParameter ( $name, $descriptionOrCallback = null, $required = false, $type = 'string' )
 	{
-		return $this->registerParameter ( PathParameterSubSchema::class, $name, $descriptionOrCallback, $type, $required );
+		return $this->registerParameter ( QueryParameterSubSchema::class, $name, $descriptionOrCallback, $required, $type );
 	}
 	
 	
 	/**
 	 * @param string          $name
 	 * @param string|callable $descriptionOrCallback
-	 * @param string          $type
 	 * @param bool            $required
+	 * @param string          $type
 	 * @return Operation
 	 */
-	public function addFormDataParameter ( $name, $descriptionOrCallback = null, $type = 'string', $required = false )
+	public function addPathParameter ( $name, $descriptionOrCallback = null, $required = false, $type = 'string' )
+	{
+		return $this->registerParameter ( PathParameterSubSchema::class, $name, $descriptionOrCallback, $required, $type );
+	}
+	
+	
+	/**
+	 * @param string          $name
+	 * @param string|callable $descriptionOrCallback
+	 * @param bool            $required
+	 * @param string          $type
+	 * @return Operation
+	 */
+	public function addFormDataParameter ( $name, $descriptionOrCallback = null, $required = false, $type = 'string' )
 	{
 		if ( ! $this->has ( 'consumes' ) )
 		{
 			$this->setConsumes ( [ 'application/x-www-form-urlencoded' ] );
 		}
-		return $this->registerParameter ( FormDataParameterSubSchema::class, $name, $descriptionOrCallback, $type, $required );
+		return $this->registerParameter ( FormDataParameterSubSchema::class, $name, $descriptionOrCallback, $required, $type );
+	}
+	
+	
+	/**
+	 * @param string          $name
+	 * @param string|callable $descriptionOrCallback
+	 * @param bool            $required
+	 * @return Operation
+	 */
+	public function addBodyParameter ( $name, $descriptionOrCallback = null, $required = false )
+	{
+		return $this->registerParameter ( BodyParameter::class, $name, $descriptionOrCallback, $required );
 	}
 	
 	
@@ -183,15 +210,19 @@ class Operation extends StrutOperation
 	 * @param string          $parameterType
 	 * @param string          $name
 	 * @param string|callable $descriptionOrCallback
-	 * @param string          $type
 	 * @param bool            $required
+	 * @param string          $type
 	 * @return Operation
 	 */
-	protected function registerParameter ( $parameterType, $name, $descriptionOrCallback = null, $type = 'string', $required = false )
+	protected function registerParameter ( $parameterType, $name, $descriptionOrCallback = null, $required = false, $type = 'string' )
 	{
 		$parameter = $this->getOrCreateParameter ( $parameterType, $name );
 		
-		$parameter->setType ( $type );
+		if ( method_exists ( $parameter, 'setType' ) )
+		{
+			$parameter->setType ( $type );
+		}
+		
 		if ( $required )
 		{
 			$parameter->setRequired ( $required );
@@ -212,7 +243,7 @@ class Operation extends StrutOperation
 	/**
 	 * @param string $parameterType
 	 * @param string $name
-	 * @return QueryParameterSubSchema|PathParameterSubSchema|FormDataParameterSubSchema
+	 * @return QueryParameterSubSchema|PathParameterSubSchema|FormDataParameterSubSchema|HeaderParameterSubSchema|BodyParameter
 	 */
 	protected function getOrCreateParameter ( $parameterType, $name )
 	{
