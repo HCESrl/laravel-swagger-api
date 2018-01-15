@@ -14,7 +14,7 @@ class AdminController extends IlluminateController
 	
 	public function docs ( Request $request, ApiServer $api )
 	{
-		if ( ! config ( 'app.debug' ) )
+		if ( ! config ( 'app.debug' ) or ! config ( 'finnegan-api.swagger_ui_path' ) )
 		{
 			abort ( 404 );
 		}

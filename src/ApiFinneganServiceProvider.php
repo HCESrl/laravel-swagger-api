@@ -29,17 +29,20 @@ class ApiFinneganServiceProvider extends ServiceProvider
 	
 	public function boot ( MenuRegister $menus, IconsManager $icons, Registrar $router )
 	{
-		$this->app->make ( Finnegan::class )
-				  ->loadRegistrar ( RoutesRegistrar::class );
+		if ( config ( 'finnegan-api.swagger_ui_path' ) )
+		{
+			$this->app->make ( Finnegan::class )
+					  ->loadRegistrar ( RoutesRegistrar::class );
+			
+			$this->app[ 'view' ]->composer ( 'finnegan-api::*', ViewComposer::class );
+			
+			$menus->tools->route ( 'api-docs', $icons->icon ( 'plug' ) . ' API Docs' );
+		}
 		
 		//@todo skippa authorize, da ricontrollare
 		$router->bind ( 'api_model', function ( $name ) {
 			return $this->app[ 'models.resolver' ]->resolve ( $name, false );
 		} );
-		
-		$this->app[ 'view' ]->composer ( 'finnegan-api::*', ViewComposer::class );
-		
-		$menus->tools->route ( 'api-docs', $icons->icon ( 'plug' ) . ' API Docs' );
 	}
 	
 }

@@ -50,11 +50,17 @@ class ApiServiceProvider extends ServiceProvider
 			   ->namespace ( 'Finnegan\\Api\\Http\\Controllers' )
 			   ->group ( function ( Registrar $router ) {
 			
-				   $router->get ( 'docs/swagger.json', 'SwaggerController@index' )
-						  ->name ( 'finnegan-api.swagger' );
-			
-				   $router->get ( 'docs', 'AdminController@docs' )
-						  ->name ( 'finnegan-api.docs' );
+				   if ( $jsonPath = config ( 'finnegan-api.swagger_json_path' ) )
+				   {
+					   $router->get ( $jsonPath, 'SwaggerController@index' )
+							  ->name ( 'finnegan-api.swagger' );
+				
+					   if ( $uiPath = config ( 'finnegan-api.swagger_ui_path' ) )
+					   {
+						   $router->get ( $uiPath, 'AdminController@docs' )
+								  ->name ( 'finnegan-api.docs' );
+					   }
+				   }
 			
 			   } );
 	}
