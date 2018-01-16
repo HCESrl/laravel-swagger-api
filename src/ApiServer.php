@@ -87,8 +87,8 @@ class ApiServer implements \JsonSerializable
 								->addScheme ( config ( 'finnegan-api.scheme', $request->getScheme () ) )
 								->setConsumes ( [ 'application/json' ] )
 								->setProduces ( [ 'application/json' ] )
-								->setPaths ( Paths::create () )
-								->setDefinitions ( Definitions::create () );
+								->setDefinitions ( Definitions::create () )
+								->setPaths ( Paths::create () );
 	}
 	
 	
@@ -222,7 +222,6 @@ class ApiServer implements \JsonSerializable
 	
 	/**
 	 * @param string   $name
-	 * @param \Closure $callback
 	 * @return PathParameterSubSchema
 	 */
 	public function routeParameter ( $name )
@@ -307,6 +306,16 @@ class ApiServer implements \JsonSerializable
 						  ->getOperation ( 'get', $route );
 		
 		return $operation;
+	}
+	
+	
+	/**
+	 * Get the path to the API cache file.
+	 * @return string
+	 */
+	public function getCachedApiPath ()
+	{
+		return $this->app->bootstrapPath () . '/cache/api.json';
 	}
 	
 	

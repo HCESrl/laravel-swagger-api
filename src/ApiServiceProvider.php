@@ -21,6 +21,15 @@ class ApiServiceProvider extends ServiceProvider
 		
 		$this->app->singleton ( ApiServer::class );
 		
+		
+		if ( $this->app->runningInConsole () )
+		{
+			$this->commands (
+				Console\ApiCacheCommand::class,
+				Console\ApiClearCommand::class
+			);
+		}
+		
 		if ( ApiFinneganServiceProvider::isFinneganInstalled () )
 		{
 			$this->app->register ( ApiFinneganServiceProvider::class );
