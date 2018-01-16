@@ -11,15 +11,12 @@ use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 class ServiceProvider extends IlluminateServiceProvider
 {
 	
-	protected $defer = true;
-	
 	
 	public function register ()
 	{
 		$this->mergeConfigFrom ( __DIR__ . '/../resources/config.php', 'api' );
 		
 		$this->app->singleton ( Api::class );
-		
 		
 		if ( $this->app->runningInConsole () )
 		{
