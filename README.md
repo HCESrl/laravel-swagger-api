@@ -212,6 +212,21 @@ Api::aggregate ( 'aggregate/uri', [
 > **Note:** closures require a non-numeric array key.
 
 
+### API Json Caching
+To generate a route cache, just execute the `api:cache` Artisan command:
+```bash
+php artisan api:cache
+```
+
+After running this command, your cached json file will be used. Remember, if you add any new routes to the API you will 
+need to generate a fresh route cache. Because of this, you should only run the `api:cache` command during your 
+project's deployment.
+
+You may use the `api:clear` command to clear the API cache:
+```bash
+php artisan api:clear
+```
+
 ## License
 
 [FinneganCDS](https://gitlab.test5.hce.it/finnegan/extensions) and its extensions are open-sourced software licensed 
