@@ -1,12 +1,12 @@
 <?php
 
-namespace Finnegan\Api\Http\Controllers;
+namespace LaravelApi\Http\Controllers;
 
 
-use Finnegan\Api\ApiServer;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller as IlluminateController;
+use LaravelApi\ApiServer;
 
 
 class SwaggerController extends IlluminateController

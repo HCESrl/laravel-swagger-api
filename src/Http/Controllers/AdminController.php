@@ -1,11 +1,11 @@
 <?php
 
-namespace Finnegan\Api\Http\Controllers;
+namespace LaravelApi\Http\Controllers;
 
 
-use Finnegan\Api\ApiServer;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as IlluminateController;
+use LaravelApi\ApiServer;
 
 
 class AdminController extends IlluminateController

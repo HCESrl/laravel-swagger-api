@@ -1,11 +1,11 @@
 <?php
 
-namespace Finnegan\Api\Endpoints;
+namespace LaravelApi\Endpoints;
 
 
 use Calcinai\Strut\Definitions\PathParameterSubSchema;
-use Finnegan\Api\ApiServer;
 use Illuminate\Routing\PendingResourceRegistration;
+use LaravelApi\ApiServer;
 
 
 class ResourceEndpoint extends PendingResourceRegistration

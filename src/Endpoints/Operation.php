@@ -1,6 +1,6 @@
 <?php
 
-namespace Finnegan\Api\Endpoints;
+namespace LaravelApi\Endpoints;
 
 
 use Calcinai\Strut\Definitions\BodyParameter;
@@ -11,11 +11,11 @@ use Calcinai\Strut\Definitions\PathParameterSubSchema;
 use Calcinai\Strut\Definitions\QueryParameterSubSchema;
 use Calcinai\Strut\Definitions\Response;
 use Calcinai\Strut\Definitions\Responses;
-use Finnegan\Api\Definition;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use LaravelApi\Definition;
 
 
 /**

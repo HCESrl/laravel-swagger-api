@@ -1,14 +1,14 @@
 <?php
 
-namespace Finnegan\Api;
+namespace LaravelApi;
 
 
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Routing\Route;
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
 
-class ApiServiceProvider extends ServiceProvider
+class ServiceProvider extends IlluminateServiceProvider
 {
 	
 	protected $defer = true;
@@ -50,7 +50,7 @@ class ApiServiceProvider extends ServiceProvider
 	{
 		$router->prefix ( config ( 'api.prefix' ) )
 			   ->middleware ( 'api' )
-			   ->namespace ( 'Finnegan\\Api\\Http\\Controllers' )
+			   ->namespace ( 'LaravelApi\\Http\\Controllers' )
 			   ->group ( function ( Registrar $router ) {
 			
 				   if ( $jsonPath = config ( 'api.swagger_json_path' ) )

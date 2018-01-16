@@ -1,9 +1,9 @@
 <?php
 
-namespace Finnegan\Api\Tests;
+namespace LaravelApi\Tests;
 
 
-use Finnegan\Api\ApiServer;
+use LaravelApi\ApiServer;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 

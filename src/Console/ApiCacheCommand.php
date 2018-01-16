@@ -1,9 +1,9 @@
 <?php
 
-namespace Finnegan\Api\Console;
+namespace LaravelApi\Console;
 
 
-use Finnegan\Api\ApiServer;
+use LaravelApi\ApiServer;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\RouteCollection;

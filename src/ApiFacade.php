@@ -1,6 +1,6 @@
 <?php
 
-namespace Finnegan\Api;
+namespace LaravelApi;
 
 
 use Illuminate\Support\Facades\Facade;
@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @method static \Calcinai\Strut\Definitions\Tag tag ( string $name, string $description = null )
  *
- * @see \Finnegan\Api\ApiServer
+ * @see \LaravelApi\ApiServer
  */
 class ApiFacade extends Facade
 {

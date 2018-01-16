@@ -1,11 +1,11 @@
 <?php
 
-namespace Finnegan\Api\Tests;
+namespace LaravelApi\Tests;
 
 
-use Finnegan\Api\Endpoints\Endpoint;
-use Finnegan\Api\Endpoints\Operation;
-use Finnegan\Api\Endpoints\ResourceEndpoint;
+use LaravelApi\Endpoints\Endpoint;
+use LaravelApi\Endpoints\Operation;
+use LaravelApi\Endpoints\ResourceEndpoint;
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Routing\Router;
 

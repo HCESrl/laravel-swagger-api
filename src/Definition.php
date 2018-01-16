@@ -1,6 +1,6 @@
 <?php
 
-namespace Finnegan\Api;
+namespace LaravelApi;
 
 
 use Calcinai\Strut\Definitions\Schema;

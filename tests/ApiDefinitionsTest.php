@@ -1,10 +1,10 @@
 <?php
 
-namespace Finnegan\Api\Tests;
+namespace LaravelApi\Tests;
 
 
 use Calcinai\Strut\Definitions\Schema;
-use Finnegan\Api\Definition;
+use LaravelApi\Definition;
 
 
 class ApiDefinitionsTest extends TestCase

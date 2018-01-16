@@ -42,7 +42,7 @@ composer require hce/laravel-swagger-api
 
 Publish configuration and assets
 ```bash
-php artisan vendor:publish --provider=Finnegan\\Api\\ApiServiceProvider
+php artisan vendor:publish --provider=LaravelApi\\ServiceProvider
 ```
 
 ## Basic usage

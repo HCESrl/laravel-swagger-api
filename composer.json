@@ -31,21 +31,21 @@
     },
     "autoload":{
         "psr-4":{
-            "Finnegan\\Api\\":"src"
+            "LaravelApi\\":"src"
         }
     },
     "autoload-dev":{
         "psr-4":{
-            "Finnegan\\Api\\Tests\\":"tests/"
+            "LaravelApi\\Tests\\":"tests/"
         }
     },
     "extra":{
         "laravel":{
             "providers":[
-                "Finnegan\\Api\\ApiServiceProvider"
+                "LaravelApi\\ServiceProvider"
             ],
             "aliases":{
-                "Api":"Finnegan\\Api\\ApiFacade"
+                "Api":"LaravelApi\\ApiFacade"
             }
         }
     }

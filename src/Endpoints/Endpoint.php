@@ -1,6 +1,6 @@
 <?php
 
-namespace Finnegan\Api\Endpoints;
+namespace LaravelApi\Endpoints;
 
 
 use Calcinai\Strut\Definitions\PathItem;

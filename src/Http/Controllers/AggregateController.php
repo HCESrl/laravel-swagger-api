@@ -1,6 +1,6 @@
 <?php
 
-namespace Finnegan\Api\Http\Controllers;
+namespace LaravelApi\Http\Controllers;
 
 
 use Illuminate\Http\Resources\Json\Resource;

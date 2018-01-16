@@ -1,6 +1,6 @@
 <?php
 
-namespace Finnegan\Api;
+namespace LaravelApi;
 
 
 use Calcinai\Strut\Definitions\Definitions;
@@ -11,8 +11,8 @@ use Calcinai\Strut\Definitions\Schema;
 use Calcinai\Strut\Definitions\Schema\Properties\Properties;
 use Calcinai\Strut\Definitions\Tag;
 use Calcinai\Strut\Swagger;
-use Finnegan\Api\Endpoints\ResourceEndpoint;
-use Finnegan\Api\Http\Controllers\AggregateController;
+use Endpoints\ResourceEndpoint;
+use Http\Controllers\AggregateController;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Http\Request;

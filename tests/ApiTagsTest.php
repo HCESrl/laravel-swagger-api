@@ -1,10 +1,10 @@
 <?php
 
-namespace Finnegan\Api\Tests;
+namespace LaravelApi\Tests;
 
 
 use Calcinai\Strut\Definitions\Tag;
-use Finnegan\Api\ApiServer;
+use LaravelApi\ApiServer;
 
 
 class ApiTagsTest extends TestCase
