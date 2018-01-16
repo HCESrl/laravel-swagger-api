@@ -69,7 +69,7 @@ class Operation extends StrutOperation
 			$this->initOperationId ( $route );
 		}
 		
-		if ( config ( 'finnegan-api.parse_route_parameters' ) )
+		if ( config ( 'api.parse_route_parameters' ) )
 		{
 			$this->addRouteParameters ( $route, $parameters );
 		}

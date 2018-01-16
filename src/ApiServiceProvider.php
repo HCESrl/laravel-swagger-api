@@ -3,7 +3,6 @@
 namespace Finnegan\Api;
 
 
-use Finnegan\Api\Http\Controllers\AdminController;
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Routing\Route;
 use Illuminate\Support\ServiceProvider;
@@ -17,7 +16,7 @@ class ApiServiceProvider extends ServiceProvider
 	
 	public function register ()
 	{
-		$this->mergeConfigFrom ( __DIR__ . '/../resources/config.php', 'finnegan-api' );
+		$this->mergeConfigFrom ( __DIR__ . '/../resources/config.php', 'api' );
 		
 		$this->app->singleton ( ApiServer::class );
 		
@@ -29,11 +28,6 @@ class ApiServiceProvider extends ServiceProvider
 				Console\ApiClearCommand::class
 			);
 		}
-		
-		if ( ApiFinneganServiceProvider::isFinneganInstalled () )
-		{
-			$this->app->register ( ApiFinneganServiceProvider::class );
-		}
 	}
 	
 	
@@ -43,9 +37,9 @@ class ApiServiceProvider extends ServiceProvider
 		
 		$resourcesPath = __DIR__ . '/../resources';
 		
-		$this->loadViewsFrom ( "$resourcesPath/views", 'finnegan-api' );
+		$this->loadViewsFrom ( "$resourcesPath/views", 'api' );
 		
-		$this->publishes ( [ "$resourcesPath/config.php" => config_path ( 'finnegan-api.php' ) ], 'config' );
+		$this->publishes ( [ "$resourcesPath/config.php" => config_path ( 'api.php' ) ], 'config' );
 		
 		$swaggerPath = base_path ( 'vendor/swagger-api/swagger-ui/dist/' );
 		$this->publishes ( [ $swaggerPath => public_path ( 'vendor/swagger-ui' ) ], 'public' );
@@ -54,20 +48,20 @@ class ApiServiceProvider extends ServiceProvider
 	
 	protected function initRoutes ( Registrar $router )
 	{
-		$router->prefix ( config ( 'finnegan-api.prefix' ) )
+		$router->prefix ( config ( 'api.prefix' ) )
 			   ->middleware ( 'api' )
 			   ->namespace ( 'Finnegan\\Api\\Http\\Controllers' )
 			   ->group ( function ( Registrar $router ) {
 			
-				   if ( $jsonPath = config ( 'finnegan-api.swagger_json_path' ) )
+				   if ( $jsonPath = config ( 'api.swagger_json_path' ) )
 				   {
 					   $router->get ( $jsonPath, 'SwaggerController@index' )
-							  ->name ( 'finnegan-api.swagger' );
+							  ->name ( 'api.swagger' );
 				
-					   if ( $uiPath = config ( 'finnegan-api.swagger_ui_path' ) )
+					   if ( $uiPath = config ( 'api.swagger_ui_path' ) )
 					   {
 						   $router->get ( $uiPath, 'AdminController@docs' )
-								  ->name ( 'finnegan-api.docs' );
+								  ->name ( 'api.docs' );
 					   }
 				   }
 			

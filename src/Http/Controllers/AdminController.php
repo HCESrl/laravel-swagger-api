@@ -14,14 +14,14 @@ class AdminController extends IlluminateController
 	
 	public function docs ( Request $request, ApiServer $api )
 	{
-		if ( ! config ( 'finnegan-api.swagger_ui_path' ) )
+		if ( ! config ( 'api.swagger_ui_path' ) )
 		{
 			abort ( 404 );
 		}
-		return view ( 'finnegan-api::swagger-ui', [
+		return view ( 'api::swagger-ui', [
 			'api'       => $api,
 			'secure'    => $request->secure (),
-			'urlToDocs' => route ( 'finnegan-api.swagger' ),
+			'urlToDocs' => route ( 'api.swagger' ),
 		] );
 	}
 	

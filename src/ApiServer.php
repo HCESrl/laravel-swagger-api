@@ -83,8 +83,8 @@ class ApiServer implements \JsonSerializable
 		$this->swagger = Swagger::create ()
 								->setInfo ( $this->buildInfo () )
 								->setHost ( $request->getHost () )
-								->setBasePath ( '/' . config ( 'finnegan-api.prefix', 'api' ) )
-								->addScheme ( config ( 'finnegan-api.scheme', $request->getScheme () ) )
+								->setBasePath ( '/' . config ( 'api.prefix', 'api' ) )
+								->addScheme ( config ( 'api.scheme', $request->getScheme () ) )
 								->setConsumes ( [ 'application/json' ] )
 								->setProduces ( [ 'application/json' ] )
 								->setDefinitions ( Definitions::create () )
@@ -97,12 +97,12 @@ class ApiServer implements \JsonSerializable
 	 */
 	protected function buildInfo ()
 	{
-		$title = config ( 'finnegan-api.title', config ( 'app.name' ) . ' API' );
+		$title = config ( 'api.title', config ( 'app.name' ) . ' API' );
 		
 		return Info::create ()
 				   ->setTitle ( $title )
-				   ->setDescription ( config ( 'finnegan-api.description' ) )
-				   ->setVersion ( config ( 'config.finnegan-api.version', '1.0.0' ) );
+				   ->setDescription ( config ( 'api.description' ) )
+				   ->setVersion ( config ( 'api.version', '1.0.0' ) );
 	}
 	
 	

@@ -14,7 +14,7 @@ class SwaggerController extends IlluminateController
 	
 	public function index ( ApiServer $api, Filesystem $files )
 	{
-		if ( ! config ( 'finnegan-api.swagger_json_path' ) )
+		if ( ! config ( 'api.swagger_json_path' ) )
 		{
 			abort ( 404 );
 		}

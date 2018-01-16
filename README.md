@@ -1,11 +1,9 @@
-## finnegan/cds-api
+## hce/laravel-swagger-api
 
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
 
 The packages adds a layer on top of the Laravel routing system allowing you to easily add metadata to your routes
 in order to create a [Swagger](https://swagger.io/) compliant API.
-
-FinneganCDS is a web Content Design System built on top of [Laravel framework](http://laravel.com).
 
 ## Table of contents
 - [Installation](#installation)
@@ -31,7 +29,7 @@ Add the repository to your composer.json:
     [
         {
             "type":"vcs",
-            "url":"git@gitlab.test5.hce.it:finnegan/extensions/cds-api.git"
+            "url":"git@gitlab.test5.hce.it:hce/laravel-swagger-api.git"
         }
     ]
 }
@@ -39,7 +37,7 @@ Add the repository to your composer.json:
 
 Install the package:
 ```bash
-composer require finnegan/cds-api
+composer require hce/laravel-swagger-api
 ```
 
 Publish configuration and assets
@@ -50,8 +48,8 @@ php artisan vendor:publish --provider=Finnegan\\Api\\ApiServiceProvider
 ## Basic usage
 
 ### Configuration
-The main configuration is located in the `config/finnegan-api.php` file. Here you can set some general metadata for
-your API specification such as the title, the description, etc.
+The main configuration is located in the `config/api.php` file. Here you can set some general metadata for your API 
+specification such as the title, the description, etc.
 
 Make sure that the `prefix` is the same used in your `RouteServiceProvider` for the api routes.
 
@@ -133,7 +131,7 @@ Api::get('some-uri/{param1}/{param2?}', 'Controller@action')
     ->addPathParameter ( 'param2', 'Some other description.', false, 'integer' );
 ```
 
-It is also possible to disable the automatic route parsing from the main config file `config/finnegan-api.php` setting
+It is also possible to disable the automatic route parsing from the main config file `config/api.php` setting
 `parse_route_parameters` to `false`.
 
 
@@ -243,6 +241,4 @@ php artisan api:clear
 ```
 
 ## License
-
-[FinneganCDS](https://gitlab.test5.hce.it/finnegan/extensions) and its extensions are open-sourced software licensed 
-under the [MIT license](http://opensource.org/licenses/MIT).
+This package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
