@@ -7,6 +7,21 @@ in order to create a [Swagger](https://swagger.io/) compliant API.
 
 FinneganCDS is a web Content Design System built on top of [Laravel framework](http://laravel.com).
 
+## Table of contents
+- [Installation](#installation)
+- [Basic usage](#basic-usage)
+    - [Configuration](#configuration)
+    - [Routing](#routing)
+    - [Route parameters](#route-parameters)
+    - [Responses](#responses)
+- [Advanced configuration](#advanced-configuration)
+    - [General route parameters](#general-route-parameters)
+    - [Tags](#tags)
+    - [Versions](#versions)
+    - [Aggregated resources endpoint](#aggregated-resources-endpoint)
+    - [API Json Caching](#api-json-caching)
+
+
 ## Installation
 
 Add the repository to your composer.json:
@@ -69,7 +84,7 @@ Api::get('some-uri', 'Controller@action')
     ->setProduces(['application/json']);
 ```
 
-#### Route parameters
+### Route parameters
 You can define different types of route parameters after creating a route through the following methods:
 *  `addHeaderParameter`
 *  `addQueryParameter`
@@ -99,7 +114,7 @@ Api::post ( 'post-uri-2', 'Controller@action' )
     } );
 ```
 
-##### Route path parameter auto-parsing
+#### Route path parameter auto-parsing
 When you define a route containg path parameters using the [Laravel syntax](https://laravel.com/docs/5.5/routing#route-parameters),
 the route URI will be automatically parsed for path parameters, both required and optional.
 
