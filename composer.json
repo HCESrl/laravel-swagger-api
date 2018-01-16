@@ -45,7 +45,7 @@
                 "LaravelApi\\ServiceProvider"
             ],
             "aliases":{
-                "Api":"LaravelApi\\ApiFacade"
+                "Api":"LaravelApi\\Facade"
             }
         }
     }
