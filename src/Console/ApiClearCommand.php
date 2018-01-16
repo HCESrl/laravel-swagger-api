@@ -3,7 +3,7 @@
 namespace LaravelApi\Console;
 
 
-use LaravelApi\ApiServer;
+use LaravelApi\Api;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 
@@ -33,7 +33,7 @@ class ApiClearCommand extends Command
 	protected $files;
 	
 	/**
-	 * @var ApiServer
+	 * @var Api
 	 */
 	protected $api;
 	
@@ -44,7 +44,7 @@ class ApiClearCommand extends Command
 	 * @param  \Illuminate\Filesystem\Filesystem $files
 	 * @return void
 	 */
-	public function __construct ( Filesystem $files, ApiServer $api )
+	public function __construct ( Filesystem $files, Api $api )
 	{
 		parent::__construct ();
 		

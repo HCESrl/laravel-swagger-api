@@ -3,15 +3,15 @@
 namespace LaravelApi;
 
 
-use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Facades\Facade as IlluminateFacade;
 
 
 /**
  * @method static \Calcinai\Strut\Definitions\Tag tag ( string $name, string $description = null )
  *
- * @see \LaravelApi\ApiServer
+ * @see \LaravelApi\Api
  */
-class ApiFacade extends Facade
+class Facade extends IlluminateFacade
 {
 	
 	/**
@@ -21,6 +21,6 @@ class ApiFacade extends Facade
 	 */
 	protected static function getFacadeAccessor ()
 	{
-		return ApiServer::class;
+		return Api::class;
 	}
 }

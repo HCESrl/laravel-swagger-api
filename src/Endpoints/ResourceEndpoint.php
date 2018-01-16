@@ -5,14 +5,14 @@ namespace LaravelApi\Endpoints;
 
 use Calcinai\Strut\Definitions\PathParameterSubSchema;
 use Illuminate\Routing\PendingResourceRegistration;
-use LaravelApi\ApiServer;
+use LaravelApi\Api;
 
 
 class ResourceEndpoint extends PendingResourceRegistration
 {
 	
 	/**
-	 * @var ApiServer
+	 * @var Api
 	 */
 	protected $api;
 	
@@ -20,10 +20,10 @@ class ResourceEndpoint extends PendingResourceRegistration
 	
 	
 	/**
-	 * @param ApiServer $api
+	 * @param Api $api
 	 * @return ResourceEndpoint
 	 */
-	public function setApi ( ApiServer $api )
+	public function setApi ( Api $api )
 	{
 		$this->api = $api;
 		return $this;

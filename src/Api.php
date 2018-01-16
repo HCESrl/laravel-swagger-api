@@ -11,14 +11,14 @@ use Calcinai\Strut\Definitions\Schema;
 use Calcinai\Strut\Definitions\Schema\Properties\Properties;
 use Calcinai\Strut\Definitions\Tag;
 use Calcinai\Strut\Swagger;
-use Endpoints\ResourceEndpoint;
-use Http\Controllers\AggregateController;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Http\Request;
 use Illuminate\Routing\PendingResourceRegistration;
 use Illuminate\Routing\ResourceRegistrar;
 use Illuminate\Support\Traits\Macroable;
+use LaravelApi\Endpoints\ResourceEndpoint;
+use LaravelApi\Http\Controllers\AggregateController;
 
 
 /**
@@ -30,7 +30,7 @@ use Illuminate\Support\Traits\Macroable;
  * @method Endpoints\Operation options( string $uri, \Closure | array | string $action )
  * @method group ( array $attributes, \Closure | string $routes )
  */
-class ApiServer implements \JsonSerializable
+class Api implements \JsonSerializable
 {
 	
 	use Macroable
@@ -147,7 +147,7 @@ class ApiServer implements \JsonSerializable
 	
 	/**
 	 * @param array $tags
-	 * @return ApiServer
+	 * @return Api
 	 */
 	public function tags ( array $tags )
 	{
@@ -221,7 +221,7 @@ class ApiServer implements \JsonSerializable
 	
 	
 	/**
-	 * @param string   $name
+	 * @param string $name
 	 * @return PathParameterSubSchema
 	 */
 	public function routeParameter ( $name )
@@ -317,26 +317,5 @@ class ApiServer implements \JsonSerializable
 	{
 		return $this->app->bootstrapPath () . '/cache/api.json';
 	}
-	
-	
-	/**
-	 * @param string|array $models
-	 * @return ModelsEndpoint
-	 */
-	/*public function models ( $models )
-	{
-		$shouldRegister = ! $this->app->resolved ( Endpoints\ModelsEndpoint::class );
-		
-		$endpoint = $this->app->make ( Endpoints\ModelsEndpoint::class );
-		
-		$endpoint->merge ( is_array ( $models ) ? $models : func_get_args () );
-		
-		if ( $shouldRegister )
-		{
-			$this->endpoints[] = $endpoint;
-		}
-		
-		return $endpoint;
-	}*/
 	
 }

@@ -4,7 +4,7 @@ namespace LaravelApi\Tests;
 
 
 use Calcinai\Strut\Definitions\Tag;
-use LaravelApi\ApiServer;
+use LaravelApi\Api;
 
 
 class ApiTagsTest extends TestCase
@@ -26,7 +26,7 @@ class ApiTagsTest extends TestCase
 									  'tag_1' => 'Some tag description',
 									  'tag_2' => 'Some tag description',
 								  ] );
-		$this->assertInstanceOf ( ApiServer::class, $api );
+		$this->assertInstanceOf ( Api::class, $api );
 	}
 	
 	

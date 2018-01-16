@@ -3,7 +3,7 @@
 namespace LaravelApi\Tests;
 
 
-use LaravelApi\ApiServer;
+use LaravelApi\Api;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 
@@ -11,7 +11,7 @@ class TestCase extends OrchestraTestCase
 {
 	
 	/**
-	 * @var ApiServer
+	 * @var Api
 	 */
 	protected $api;
 	
@@ -19,7 +19,7 @@ class TestCase extends OrchestraTestCase
 	public function setUp ()
 	{
 		parent::setUp ();
-		$this->api = $this->app->make ( ApiServer::class );
+		$this->api = $this->app->make ( Api::class );
 	}
 	
 	

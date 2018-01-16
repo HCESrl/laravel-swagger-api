@@ -18,7 +18,7 @@ class ServiceProvider extends IlluminateServiceProvider
 	{
 		$this->mergeConfigFrom ( __DIR__ . '/../resources/config.php', 'api' );
 		
-		$this->app->singleton ( ApiServer::class );
+		$this->app->singleton ( Api::class );
 		
 		
 		if ( $this->app->runningInConsole () )
@@ -55,12 +55,12 @@ class ServiceProvider extends IlluminateServiceProvider
 			
 				   if ( $jsonPath = config ( 'api.swagger_json_path' ) )
 				   {
-					   $router->get ( $jsonPath, 'SwaggerController@index' )
+					   $router->get ( $jsonPath, 'DocsController@json' )
 							  ->name ( 'api.swagger' );
 				
 					   if ( $uiPath = config ( 'api.swagger_ui_path' ) )
 					   {
-						   $router->get ( $uiPath, 'AdminController@docs' )
+						   $router->get ( $uiPath, 'DocsController@index' )
 								  ->name ( 'api.docs' );
 					   }
 				   }
@@ -71,7 +71,7 @@ class ServiceProvider extends IlluminateServiceProvider
 	
 	public function provides ()
 	{
-		return [ ApiServer::class ];
+		return [ Api::class ];
 	}
 	
 }
