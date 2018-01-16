@@ -62,10 +62,7 @@ class ResourceEndpoint extends PendingResourceRegistration
 		$this->api->getEndpointByUri ( $uri . '/{' . $base . '}' )
 				  ->setMethod ( 'get' )
 				  ->setSummary ( 'Get the resource by ID.' )
-				  ->addPathParameter ( 'id', function ( PathParameterSubSchema $param ) {
-					  $param->setRequired ( true )
-							->setDescription ( 'The resource ID.' );
-				  } );
+				  ->addPathParameter ( 'id', 'The resource ID.', true );
 	}
 	
 	
@@ -82,10 +79,7 @@ class ResourceEndpoint extends PendingResourceRegistration
 		$this->api->getEndpointByUri ( $uri . '/{' . $base . '}' )
 				  ->setMethod ( 'put' )
 				  ->setSummary ( 'Update the resource by ID.' )
-				  ->addPathParameter ( 'id', function ( PathParameterSubSchema $param ) {
-					  $param->setRequired ( true )
-							->setDescription ( 'The resource ID.' );
-				  } );
+				  ->addPathParameter ( 'id', 'The resource ID.', true );
 	}
 	
 	
@@ -94,10 +88,7 @@ class ResourceEndpoint extends PendingResourceRegistration
 		$this->api->getEndpointByUri ( $uri . '/{' . $base . '}' )
 				  ->setMethod ( 'delete' )
 				  ->setSummary ( 'Delete a resource by ID.' )
-				  ->addPathParameter ( 'id', function ( PathParameterSubSchema $param ) {
-					  $param->setRequired ( true )
-							->setDescription ( 'The resource ID.' );
-				  } );
+				  ->addPathParameter ( 'id', 'The resource ID.', true );
 	}
 	
 	
