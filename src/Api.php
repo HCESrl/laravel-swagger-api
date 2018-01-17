@@ -61,7 +61,7 @@ class Api implements \JsonSerializable
 	/**
 	 * @var array
 	 */
-	protected $passthru = [ 'group', 'resource' ];
+	protected $passthru = [ 'group' ];
 	
 	/**
 	 * @var array
@@ -286,7 +286,7 @@ class Api implements \JsonSerializable
 	protected function cleanUpRouteUri ( $uri )
 	{
 		$basePath = trim ( $this->swagger->getBasePath (), '/' );
-		$uri = str_replace ( $basePath, '', $uri );
+		$uri = preg_replace ( "/^{$basePath}/", '', $uri );
 		return '/' . trim ( $uri, '/' );
 	}
 	
