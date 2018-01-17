@@ -18,6 +18,7 @@ in order to create a [Swagger](https://swagger.io/) compliant API.
     - [Versions](#versions)
     - [Aggregated resources endpoint](#aggregated-resources-endpoint)
     - [API Json Caching](#api-json-caching)
+- [Todos](#todos)
 
 
 ## Installation
@@ -239,6 +240,12 @@ You may use the `api:clear` command to clear the API cache:
 ```bash
 php artisan api:clear
 ```
+
+## Todos
+*  Add support for [Components](https://swagger.io/specification/#components-object-33);
+*  Add support for response [Examples](https://swagger.io/specification/#example-object-78);
+*  Create route parameters based on a [Laravel Form Request](https://laravel.com/docs/5.5/validation#form-request-validation);
+*  Implement authentication through [Laravel Passport](https://laravel.com/docs/5.5/passport);
 
 ## License
 This package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
