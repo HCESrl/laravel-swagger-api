@@ -80,6 +80,7 @@
       operationsSorter: null,
       configUrl: null,
       validatorUrl: null,
+      displayOperationId: true,
       oauth2RedirectUrl: "{{ asset('vendor/swagger-ui/oauth2-redirect.html') }}",
 
       presets: [
