@@ -71,7 +71,7 @@ class Operation extends StrutOperation
 		
 		if ( config ( 'api.parse_route_parameters' ) )
 		{
-			$this->addRouteParameters ( $route, $parameters );
+			$this->parseRouteParameters ( $route->getDomain () . $route->uri (), $parameters );
 		}
 		
 		return $this;
@@ -105,13 +105,13 @@ class Operation extends StrutOperation
 	
 	
 	/**
-	 * @param Route $route
-	 * @param array $parameters
+	 * @param string $uri
+	 * @param array  $parameters
 	 * @return Operation
 	 */
-	protected function addRouteParameters ( Route $route, array $parameters = [] )
+	public function parseRouteParameters ( $uri, array $parameters = [] )
 	{
-		preg_match_all ( '/\{(.*?)\}/', $route->getDomain () . $route->uri (), $matches );
+		preg_match_all ( '/\{(.*?)\}/', $uri, $matches );
 		
 		array_map ( function ( $match ) use ( $parameters ) {
 			

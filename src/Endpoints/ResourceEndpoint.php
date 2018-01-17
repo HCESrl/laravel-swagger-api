@@ -53,7 +53,8 @@ class ResourceEndpoint extends PendingResourceRegistration
 	{
 		$this->api->getEndpointByUri ( $uri )
 				  ->setMethod ( 'get' )
-				  ->setSummary ( 'Get the list of resources.' );
+				  ->setSummary ( 'Get the list of resources.' )
+				  ->parseRouteParameters ( $uri );
 	}
 	
 	
@@ -62,7 +63,8 @@ class ResourceEndpoint extends PendingResourceRegistration
 		$this->api->getEndpointByUri ( $uri . '/{' . $base . '}' )
 				  ->setMethod ( 'get' )
 				  ->setSummary ( 'Get the resource by ID.' )
-				  ->addPathParameter ( 'id', 'The resource ID.', true );
+				  ->parseRouteParameters ( $uri )
+				  ->addPathParameter ( 'id', 'The resource ID.', true, 'integer' );
 	}
 	
 	
@@ -70,7 +72,8 @@ class ResourceEndpoint extends PendingResourceRegistration
 	{
 		$this->api->getEndpointByUri ( $uri )
 				  ->setMethod ( 'post' )
-				  ->setSummary ( 'Create a new resource.' );
+				  ->setSummary ( 'Create a new resource.' )
+				  ->parseRouteParameters ( $uri );
 	}
 	
 	
@@ -79,7 +82,8 @@ class ResourceEndpoint extends PendingResourceRegistration
 		$this->api->getEndpointByUri ( $uri . '/{' . $base . '}' )
 				  ->setMethod ( 'put' )
 				  ->setSummary ( 'Update the resource by ID.' )
-				  ->addPathParameter ( 'id', 'The resource ID.', true );
+				  ->parseRouteParameters ( $uri )
+				  ->addPathParameter ( 'id', 'The resource ID.', true, 'integer' );
 	}
 	
 	
@@ -88,7 +92,8 @@ class ResourceEndpoint extends PendingResourceRegistration
 		$this->api->getEndpointByUri ( $uri . '/{' . $base . '}' )
 				  ->setMethod ( 'delete' )
 				  ->setSummary ( 'Delete a resource by ID.' )
-				  ->addPathParameter ( 'id', 'The resource ID.', true );
+				  ->parseRouteParameters ( $uri )
+				  ->addPathParameter ( 'id', 'The resource ID.', true, 'integer' );
 	}
 	
 	
