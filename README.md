@@ -1,4 +1,4 @@
-## hce/laravel-swagger-api
+## HCESrl/laravel-swagger-api
 
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
 
@@ -23,22 +23,9 @@ in order to create a [Swagger](https://swagger.io/) compliant API.
 
 ## Installation
 
-Add the repository to your composer.json:
-```json
-{
-    "repositories":
-    [
-        {
-            "type":"vcs",
-            "url":"git@gitlab.test5.hce.it:hce/laravel-swagger-api.git"
-        }
-    ]
-}
-```
-
 Install the package:
 ```bash
-composer require hce/laravel-swagger-api
+composer require HCESrl/laravel-swagger-api
 ```
 
 Publish configuration and assets
