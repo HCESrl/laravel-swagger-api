@@ -1,12 +1,12 @@
 {
-    "name":"hce/laravel-swagger-api",
+    "name":"HCESrl/laravel-swagger-api",
     "description":"API Swagger package for Laravel.",
-    "homepage":"https://gitlab.test5.hce.it/hce/laravel-swagger-api",
+    "homepage":"https://github.com/HCESrl/laravel-swagger-api",
     "license":"MIT",
     "authors":[
         {
             "name":"Fabio Savina",
-            "email":"fsavina@hce.it"
+            "email":"fabio.savina@gmail.com"
         }
     ],
     "keywords":[
