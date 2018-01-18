@@ -25,7 +25,7 @@ in order to create a [Swagger](https://swagger.io/) compliant API.
 
 Install the package:
 ```bash
-composer require HCESrl/laravel-swagger-api
+composer require hcesrl/laravel-swagger-api
 ```
 
 Publish configuration and assets
