@@ -5,7 +5,6 @@ namespace LaravelApi;
 
 use Calcinai\Strut\Definitions\Definitions;
 use Calcinai\Strut\Definitions\Info;
-use Calcinai\Strut\Definitions\PathParameterSubSchema;
 use Calcinai\Strut\Definitions\Paths;
 use Calcinai\Strut\Definitions\Schema;
 use Calcinai\Strut\Definitions\Schema\Properties\Properties;
@@ -17,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\PendingResourceRegistration;
 use Illuminate\Routing\ResourceRegistrar;
 use Illuminate\Support\Traits\Macroable;
+use LaravelApi\Endpoints\Parameters\PathParameter;
 use LaravelApi\Endpoints\ResourceEndpoint;
 use LaravelApi\Http\Controllers\AggregateController;
 
@@ -54,7 +54,7 @@ class Api implements \JsonSerializable
 	protected $swagger;
 	
 	/**
-	 * @var array|PathParameterSubSchema[]
+	 * @var array|PathParameter[]
 	 */
 	protected $parameters = [];
 	
@@ -222,11 +222,11 @@ class Api implements \JsonSerializable
 	
 	/**
 	 * @param string $name
-	 * @return PathParameterSubSchema
+	 * @return PathParameter
 	 */
 	public function routeParameter ( $name )
 	{
-		$parameter = PathParameterSubSchema::create ( compact ( 'name' ) );
+		$parameter = new PathParameter ( compact ( 'name' ) );
 		
 		$this->parameters[ $name ] = $parameter;
 		

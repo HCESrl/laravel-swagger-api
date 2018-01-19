@@ -11,7 +11,7 @@ trait AcceptsOptions
 	 * @param string|array $options
 	 * @return FormDataParameter|PathParameter
 	 */
-	protected function addOptions ( $options )
+	public function addOptions ( $options )
 	{
 		$options = is_array ( $options ) ? $options : func_get_args ();
 		
