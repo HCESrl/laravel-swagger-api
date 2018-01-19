@@ -14,6 +14,7 @@ in order to create a [Swagger](https://swagger.io/) compliant API.
     - [Responses](#responses)
 - [Advanced configuration](#advanced-configuration)
     - [General route parameters](#general-route-parameters)
+    - [Guess parameters from FormRequest](#guess-parameters-from-formrequest)
     - [Tags](#tags)
     - [Versions](#versions)
     - [Aggregated resources endpoint](#aggregated-resources-endpoint)
