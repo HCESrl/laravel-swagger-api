@@ -4,10 +4,8 @@ namespace LaravelApi\Endpoints;
 
 
 use Calcinai\Strut\Definitions\BodyParameter;
-use Calcinai\Strut\Definitions\FormDataParameterSubSchema;
 use Calcinai\Strut\Definitions\HeaderParameterSubSchema;
 use Calcinai\Strut\Definitions\Operation as StrutOperation;
-use Calcinai\Strut\Definitions\PathParameterSubSchema;
 use Calcinai\Strut\Definitions\QueryParameterSubSchema;
 use Calcinai\Strut\Definitions\Response;
 use Calcinai\Strut\Definitions\Responses;
@@ -15,6 +13,7 @@ use Illuminate\Routing\Route;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationRuleParser;
 use LaravelApi\Definition;
 
 
@@ -43,6 +42,11 @@ class Operation extends StrutOperation
 	 * @var Route
 	 */
 	protected $route;
+	
+	/**
+	 * @var ValidationRuleParser
+	 */
+	protected $ruleParser;
 	
 	
 	public function __construct ( $data = [] )
@@ -192,7 +196,7 @@ class Operation extends StrutOperation
 	 */
 	public function addPathParameter ( $name, $descriptionOrCallback = null, $required = false, $type = 'string' )
 	{
-		return $this->registerParameter ( PathParameterSubSchema::class, $name, $descriptionOrCallback, $required, $type );
+		return $this->registerParameter ( Parameters\PathParameter::class, $name, $descriptionOrCallback, $required, $type );
 	}
 	
 	
@@ -209,7 +213,7 @@ class Operation extends StrutOperation
 		{
 			$this->setConsumes ( [ 'application/x-www-form-urlencoded' ] );
 		}
-		return $this->registerParameter ( FormDataParameterSubSchema::class, $name, $descriptionOrCallback, $required, $type );
+		return $this->registerParameter ( Parameters\FormDataParameter::class, $name, $descriptionOrCallback, $required, $type );
 	}
 	
 	
@@ -265,20 +269,13 @@ class Operation extends StrutOperation
 	/**
 	 * @param string $parameterType
 	 * @param string $name
-	 * @return QueryParameterSubSchema|PathParameterSubSchema|FormDataParameterSubSchema|HeaderParameterSubSchema|BodyParameter
+	 * @return QueryParameterSubSchema|Parameters\PathParameter|Parameters\FormDataParameter|HeaderParameterSubSchema|BodyParameter
 	 */
 	protected function getOrCreateParameter ( $parameterType, $name )
 	{
 		if ( $this->has ( 'parameters' ) )
 		{
-			$parameters = Collection::make ( $this->getParameters () );
-			
-			$existingParameter = $parameters->filter (
-				function ( $param ) use ( $parameterType, $name ) {
-					return ( $param instanceof $parameterType and $param->getName () === $name );
-				} )->first ();
-			
-			if ( $existingParameter )
+			if ( $existingParameter = $this->retrieveParameter ( $name, $parameterType ) )
 			{
 				return $existingParameter;
 			}
@@ -289,6 +286,21 @@ class Operation extends StrutOperation
 		$this->addParameter ( $parameter );
 		
 		return $parameter;
+	}
+	
+	
+	/**
+	 * @param string $name
+	 * @param string $type
+	 * @return QueryParameterSubSchema|Parameters\PathParameter|Parameters\FormDataParameter|HeaderParameterSubSchema|BodyParameter|null
+	 */
+	protected function retrieveParameter ( $name, $type )
+	{
+		$parameters = Collection::make ( $this->getParameters () );
+		
+		return $parameters->filter ( function ( $param ) use ( $name, $type ) {
+			return ( $param instanceof $type and $param->getName () === $name );
+		} )->first ();
 	}
 	
 	
@@ -307,5 +319,49 @@ class Operation extends StrutOperation
 		return $this;
 	}
 	
+	
+	/**
+	 * @param string $request
+	 * @return Operation
+	 */
+	public function bindRequest ( $request )
+	{
+		$rules = ( new $request )->rules ();
+		
+		return $this->bindRules (
+			$this->getValidationRuleParser ()
+				 ->explode ( $rules )->rules
+		);
+	}
+	
+	
+	/**
+	 * @param array $requestRules
+	 * @return Operation
+	 */
+	protected function bindRules ( array $requestRules )
+	{
+		foreach ( $requestRules as $name => $rules )
+		{
+			$this->addFormDataParameter ( $name, function ( $param ) use ( $rules ) {
+				$param->applyRules ( $rules );
+			}, in_array ( 'required', $rules ) );
+		}
+		
+		return $this;
+	}
+	
+	
+	/**
+	 * @return ValidationRuleParser
+	 */
+	protected function getValidationRuleParser ()
+	{
+		if ( is_null ( $this->ruleParser ) )
+		{
+			$this->ruleParser = new ValidationRuleParser( [] );
+		}
+		return $this->ruleParser;
+	}
 	
 }

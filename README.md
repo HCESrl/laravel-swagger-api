@@ -28,7 +28,7 @@ Install the package:
 composer require hcesrl/laravel-swagger-api
 ```
 
-Publish configuration and assets
+Publish configuration and assets:
 ```bash
 php artisan vendor:publish --provider=LaravelApi\\ServiceProvider
 ```
@@ -145,10 +145,18 @@ the same are found in the route uris.
 Api::routeParameter ( 'locale' )
    ->setDescription ( 'The request locale.' )
    ->setRequired ( true )
-   ->addEnum ( 'en' )
-   ->addEnum ( 'it' );
+   ->addOptions ( 'en', 'it' );
    
 Api::get ( '{locale}/some-uri', 'Controller@action' )
+```
+
+### Guess parameters from FormRequest
+In order to simplify the parameters registration, you may bind a Laravel [FormRequest](https://laravel.com/docs/5.5/validation#form-request-validation)
+directly to a route and let the package guess the parameters from the request rules.
+
+```php
+Api::post ( 'some-uri', 'Controller@action' )
+   ->bindRequest ( 'App\\Http\\Requests\\MyFormRequest' );
 ```
 
 ### Tags
@@ -214,7 +222,7 @@ Api::aggregate ( 'aggregate/uri', [
 
 
 ### API Json Caching
-To generate a route cache, just execute the `api:cache` Artisan command:
+To generate a Swagger json file cache, just execute the `api:cache` Artisan command:
 ```bash
 php artisan api:cache
 ```
@@ -231,7 +239,6 @@ php artisan api:clear
 ## Todos
 *  Add support for [Components](https://swagger.io/specification/#components-object-33);
 *  Add support for response [Examples](https://swagger.io/specification/#example-object-78);
-*  Create route parameters based on a [Laravel Form Request](https://laravel.com/docs/5.5/validation#form-request-validation);
 *  Implement authentication through [Laravel Passport](https://laravel.com/docs/5.5/passport);
 
 ## License
