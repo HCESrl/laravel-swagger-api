@@ -18,6 +18,7 @@ in order to create a [Swagger](https://swagger.io/) compliant API.
     - [Tags](#tags)
     - [Versions](#versions)
     - [Aggregated resources endpoint](#aggregated-resources-endpoint)
+    - [Aggregated models endpoint](#aggregated-models-endpoint)
     - [API Json Caching](#api-json-caching)
 - [Todos](#todos)
 
@@ -220,6 +221,48 @@ Api::aggregate ( 'aggregate/uri', [
 ```
 
 > **Note:** closures require a non-numeric array key.
+
+
+### Aggregated models endpoint
+Building a complex API may require the creation of several endpoints exposing models data. You can easily do this
+with the `models` shortcut. With this method you can create a general resource endpoints connected to a simple
+Resource controller that implements only the `index` and `show` actions and handles multiple models.
+
+The following configuration:
+
+```php
+Api::models ( [
+    'pages' => \App\Page::class, 
+    'users' => \App\User::class
+] );
+```
+
+is equivalent to:
+```php
+Api::resource ( 'models/pages', 'SomeController' )
+    ->only ( 'index', 'show' );
+    
+Api::resource ( 'models/users', 'SomeController' )
+    ->only ( 'index', 'show' );
+```
+
+
+#### Customize the response
+If you use custom [API Resources](https://laravel.com/docs/5.5/eloquent-resources) to personalize the API data you
+can define the following methods within your models in order the provide the right resource to the API server.
+
+```php
+public function toApiResource ( $resource )
+{
+    return new MyCustomResource ( $resource );
+}
+
+
+public function toApiResourceCollection ( $resource )
+{
+    return new MyCustomResourceCollection ( $resource );
+}
+```
 
 
 ### API Json Caching
