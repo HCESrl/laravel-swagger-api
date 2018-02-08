@@ -6,14 +6,11 @@ namespace LaravelApi;
 use Calcinai\Strut\Definitions\Definitions;
 use Calcinai\Strut\Definitions\Info;
 use Calcinai\Strut\Definitions\Paths;
-use Calcinai\Strut\Definitions\Schema;
-use Calcinai\Strut\Definitions\Schema\Properties\Properties;
 use Calcinai\Strut\Definitions\Tag;
 use Calcinai\Strut\Swagger;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Http\Request;
-use Illuminate\Routing\PendingResourceRegistration;
 use Illuminate\Routing\ResourceRegistrar;
 use Illuminate\Support\Traits\Macroable;
 use LaravelApi\Endpoints\Parameters\PathParameter;
@@ -294,6 +291,7 @@ class Api implements \JsonSerializable
 	/**
 	 * @param string $uri
 	 * @param array  $resources
+	 * @return Endpoints\Operation
 	 */
 	public function aggregate ( $uri, array $resources )
 	{
@@ -306,6 +304,22 @@ class Api implements \JsonSerializable
 						  ->getOperation ( 'get', $route );
 		
 		return $operation;
+	}
+	
+	
+	/**
+	 * @param array|string $models
+	 * @return Endpoints\ModelsEndpointRegistry
+	 */
+	public function models ( $models )
+	{
+		$models = is_array ( $models ) ? $models : func_get_args ();
+		
+		$registry = app ( Endpoints\ModelsEndpointRegistry::class );
+		
+		$registry->add ( $models );
+		
+		return $registry;
 	}
 	
 	

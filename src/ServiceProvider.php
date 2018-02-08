@@ -4,7 +4,6 @@ namespace LaravelApi;
 
 
 use Illuminate\Contracts\Routing\Registrar;
-use Illuminate\Routing\Route;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
 
@@ -18,6 +17,8 @@ class ServiceProvider extends IlluminateServiceProvider
 		
 		$this->app->singleton ( Api::class );
 		
+		$this->registerModelEndpointRegistry ();
+		
 		if ( $this->app->runningInConsole () )
 		{
 			$this->commands (
@@ -25,6 +26,20 @@ class ServiceProvider extends IlluminateServiceProvider
 				Console\ApiClearCommand::class
 			);
 		}
+	}
+	
+	
+	protected function registerModelEndpointRegistry ()
+	{
+		$this->app->singleton ( Endpoints\ModelsEndpointRegistry::class, function () {
+			$registry = new Endpoints\ModelsEndpointRegistry( $this->app[ Api::class ] );
+			
+			$this->app[ 'router' ]->bind ( 'api_model', function ( $name ) use ( $registry ) {
+				return $registry->resolve ( $name );
+			} );
+			
+			return $registry;
+		} );
 	}
 	
 	

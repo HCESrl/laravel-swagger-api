@@ -3,11 +3,19 @@
 namespace LaravelApi\Tests;
 
 
+use Illuminate\Database\Eloquent\Model;
 use LaravelApi\Endpoints\Endpoint;
+use LaravelApi\Endpoints\ModelsEndpointRegistry;
 use LaravelApi\Endpoints\Operation;
 use LaravelApi\Endpoints\ResourceEndpoint;
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Routing\Router;
+
+
+class Page extends Model
+{
+
+}
 
 
 class ApiTest extends TestCase
@@ -64,6 +72,27 @@ class ApiTest extends TestCase
 		
 		$this->assertInstanceOf ( ResourceEndpoint::class, $endpoint );
 		$this->assertInstanceOf ( ResourceEndpoint::class, $endpoint->setApi ( $this->api ) );
+	}
+	
+	
+	public function testModelsEndpointRegistration ()
+	{
+		$registry = $this->api->models (
+			[
+				Page::class,
+				'posts' => 'App\Post'
+			]
+		);
+		
+		$this->assertInstanceOf ( ModelsEndpointRegistry::class, $registry );
+		
+		$this->assertTrue ( $registry->has ( Page::class ) );
+		$this->assertTrue ( $registry->has ( 'App\Post' ) );
+		
+		$this->assertInstanceOf ( Page::class, $registry->resolve ( 'pages' ) );
+		
+		$this->assertInstanceOf ( ModelsEndpointRegistry::class, $registry->clear () );
+		$this->assertFalse ( $registry->has ( Page::class ) );
 	}
 	
 	
