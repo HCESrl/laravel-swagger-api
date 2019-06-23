@@ -79,7 +79,7 @@ class Api implements \JsonSerializable
 		
 		$this->swagger = Swagger::create ()
 								->setInfo ( $this->buildInfo () )
-								->setHost ( $request->getHost () )
+								->setHost ( $request->getHttpHost () )
 								->setBasePath ( '/' . config ( 'api.prefix', 'api' ) )
 								->addScheme ( config ( 'api.scheme', $request->getScheme () ) )
 								->setConsumes ( [ 'application/json' ] )
