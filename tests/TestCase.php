@@ -9,18 +9,19 @@ use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 class TestCase extends OrchestraTestCase
 {
-	
-	/**
-	 * @var Api
-	 */
-	protected $api;
-	
-	
-	public function setUp ()
-	{
-		parent::setUp ();
-		$this->api = $this->app->make ( Api::class );
-	}
-	
-	
+
+    /**
+     * @var Api
+     */
+    protected $api;
+
+
+    protected function setUp (): void
+    {
+        parent::setUp ();
+
+        $this->api = $this->app->make ( Api::class );
+    }
+
+
 }
