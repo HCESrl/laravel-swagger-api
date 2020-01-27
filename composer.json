@@ -12,7 +12,8 @@
   "keywords": [
     "laravel",
     "swagger",
-    "api"
+    "api",
+    "ui"
   ],
   "require": {
     "php": ">=7.1",

@@ -3,7 +3,7 @@
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
 
 The packages adds a layer on top of the Laravel routing system allowing you to easily add metadata to your routes
-in order to create a [Swagger](https://swagger.io/) compliant API.
+in order to create a [Swagger UI](https://swagger.io/tools/swagger-ui/) compliant API.
 
 ## Table of contents
 - [Installation](#installation)
