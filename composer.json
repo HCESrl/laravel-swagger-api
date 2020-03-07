@@ -18,11 +18,11 @@
   "require": {
     "php": ">=7.1",
     "ext-json": "*",
-    "illuminate/contracts": "^5.5|^6.0",
-    "illuminate/filesystem": "^5.5|^6.0",
-    "illuminate/http": "^5.5|^6.0",
-    "illuminate/routing": "^5.5|^6.0",
-    "illuminate/support": "^5.5|^6.0",
+    "illuminate/contracts": "^5.5|^6.0|^7.0",
+    "illuminate/filesystem": "^5.5|^6.0|^7.0",
+    "illuminate/http": "^5.5|^6.0|^7.0",
+    "illuminate/routing": "^5.5|^6.0|^7.0",
+    "illuminate/support": "^5.5|^6.0|^7.0",
     "calcinai/strut": "^0.2",
     "swagger-api/swagger-ui": "^3.9"
   },
