@@ -194,14 +194,14 @@ automatically prefixed and tagged with the given version name.
 /**
  * /api/v1/versioned-uri
  */
-Api::tag('v1', function() {
+Api::version('v1', function() {
     Api::get('versioned-uri', 'Controller@action');
 });
 
 /**
  * /api/v2/versioned-uri
  */
-Api::tag('v2', function() {
+Api::version('v2', function() {
     Api::get('versioned-uri', 'Controller@action');
 });
 ```
