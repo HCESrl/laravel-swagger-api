@@ -9,6 +9,7 @@ in order to create a [Swagger UI](https://swagger.io/tools/swagger-ui/) complian
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
     - [Configuration](#configuration)
+    - [HTTPS/Trusted proxies](#trusted-proxies)
     - [Routing](#routing)
     - [Route parameters](#route-parameters)
     - [Responses](#responses)
@@ -42,6 +43,10 @@ The main configuration is located in the `config/api.php` file. Here you can set
 specification such as the title, the description, etc.
 
 Make sure that the `prefix` is the same used in your `RouteServiceProvider` for the api routes.
+
+### HTTPS/Trusted proxies
+In case your API is hosted behind a load balancer and does not generate proper secure urls, refer to the Laravel docs
+about [configuring trusted proxies](https://laravel.com/docs/6.x/requests#configuring-trusted-proxies).
 
 ### Routing
 The `Api` facade works with the same syntax as the `Route` facade and you can use it directly in your

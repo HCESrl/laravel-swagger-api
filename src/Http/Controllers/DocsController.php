@@ -12,19 +12,19 @@ use LaravelApi\Api;
 
 class DocsController extends IlluminateController
 {
-	
+
 	/**
 	 * @var Api
 	 */
 	protected $api;
-	
-	
+
+
 	public function __construct ( Api $api )
 	{
 		$this->api = $api;
 	}
-	
-	
+
+
 	public function index ( Request $request )
 	{
 		if ( ! config ( 'api.swagger_ui_path' ) )
@@ -33,12 +33,12 @@ class DocsController extends IlluminateController
 		}
 		return view ( 'api::swagger-ui', [
 			'api'       => $this->api,
-			'secure'    => $request->secure (),
+			//'secure'    => $request->secure (),
 			'urlToDocs' => route ( 'api.swagger' ),
 		] );
 	}
-	
-	
+
+
 	public function json ( Filesystem $files )
 	{
 		if ( ! config ( 'api.swagger_json_path' ) )
@@ -51,5 +51,5 @@ class DocsController extends IlluminateController
 		}
 		return $this->api;
 	}
-	
+
 }

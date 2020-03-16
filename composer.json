@@ -31,7 +31,7 @@
     "swagger-api/swagger-ui":"^3.18"
   },
   "suggest": {
-    "barryvdh/laravel-cors": "Required to send CORS headers (^0.10.0)"
+    "fruitcake/laravel-cors": "Required to send CORS headers (^1.0)"
   },
   "autoload": {
     "psr-4": {
