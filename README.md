@@ -9,7 +9,7 @@ in order to create a [Swagger UI](https://swagger.io/tools/swagger-ui/) complian
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
     - [Configuration](#configuration)
-    - [HTTPS/Trusted proxies](#trusted-proxies)
+    - [HTTPS/Trusted proxies](#httpstrusted-proxies)
     - [Routing](#routing)
     - [Route parameters](#route-parameters)
     - [Responses](#responses)
