@@ -13,38 +13,38 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class ModelsEndpointRegistry
 {
-	
+
 	/**
 	 * @var array
 	 */
 	protected $registry = [];
-	
+
 	/**
 	 * @var Api
 	 */
 	protected $api;
-	
-	
+
+
 	/**
 	 * @var array|PathParameterSubSchema[]
 	 */
 	protected $parameters = [];
-	
-	
+
+
 	/**
 	 * @param Api $api
 	 */
 	public function __construct ( Api $api )
 	{
 		$this->api = $api;
-		
+
 		$api->resource ( 'models/{api_model}', '\\' . ModelsController::class )
 			->only ( 'index', 'show' );
-		
+
 		$this->retrieveParameters ();
 	}
-	
-	
+
+
 	protected function retrieveParameters ()
 	{
 		$this->api->getEndpointByUri ( 'models/{api_model}' )
@@ -55,7 +55,7 @@ class ModelsEndpointRegistry
 					  $param->setDescription ( 'The model name.' );
 					  $this->parameters[] = $param;
 				  }, true );
-		
+
 		$this->api->getEndpointByUri ( 'models/{api_model}/{id}' )
 				  ->setMethod ( 'get' )
 				  ->addTag ( 'models' )
@@ -64,34 +64,34 @@ class ModelsEndpointRegistry
 					  $this->parameters[] = $param;
 				  }, true );
 	}
-	
-	
+
+
 	/**
 	 * @param array $models
-	 * @return ModelsEndpointRegistry
+	 * @return $this
 	 */
 	public function add ( array $models )
 	{
 		$options = [];
-		
+
 		foreach ( $models as $name => $model )
 		{
 			if ( is_numeric ( $name ) )
 			{
 				$name = $this->getModelName ( $model );
 			}
-			
+
 			$options[] = $name;
-			
+
 			$this->registry[ $name ] = $model;
 		}
-		
+
 		$this->addOptionsToParameters ( $options );
-		
+
 		return $this;
 	}
-	
-	
+
+
 	/**
 	 * @param string $model
 	 * @return string
@@ -100,11 +100,11 @@ class ModelsEndpointRegistry
 	{
 		return strtolower ( Str::plural ( Str::snake ( class_basename ( $model ) ) ) );
 	}
-	
-	
+
+
 	/**
 	 * @param array $names
-	 * @return ModelsEndpointRegistry
+	 * @return $this
 	 */
 	protected function addOptionsToParameters ( array $names )
 	{
@@ -117,8 +117,8 @@ class ModelsEndpointRegistry
 		}
 		return $this;
 	}
-	
-	
+
+
 	/**
 	 * @param string $name
 	 * @return Model
@@ -129,13 +129,13 @@ class ModelsEndpointRegistry
 		{
 			throw new ResourceNotFoundException( 'The model is not registered.' );
 		}
-		
+
 		$model = $this->registry[ $name ];
-		
+
 		return new $model;
 	}
-	
-	
+
+
 	/**
 	 * @param string $name
 	 * @return bool
@@ -144,15 +144,15 @@ class ModelsEndpointRegistry
 	{
 		return in_array ( $name, $this->registry );
 	}
-	
-	
+
+
 	/**
-	 * @return ModelsEndpointRegistry
+	 * @return $this
 	 */
 	public function clear ()
 	{
 		$this->registry = [];
 		return $this;
 	}
-	
+
 }
