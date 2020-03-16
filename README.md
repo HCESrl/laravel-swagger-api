@@ -33,7 +33,7 @@ composer require hcesrl/laravel-swagger-api
 
 Publish configuration and assets:
 ```bash
-php artisan vendor:publish --provider=LaravelApi\\ServiceProvider
+php artisan vendor:publish --provider="LaravelApi\ServiceProvider"
 ```
 
 ## Basic usage
