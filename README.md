@@ -20,6 +20,7 @@ in order to create a [Swagger UI](https://swagger.io/tools/swagger-ui/) complian
     - [Versions](#versions)
     - [Aggregated resources endpoint](#aggregated-resources-endpoint)
     - [Aggregated models endpoint](#aggregated-models-endpoint)
+    - [Authorization](#authorization)
     - [API Json Caching](#api-json-caching)
 - [Todos](#todos)
 
@@ -132,10 +133,10 @@ will be parsed and the two path parameters will be added automatically. You can 
 use LaravelApi\Facade as Api;
 
 Api::get('some-uri/{param1}/{param2?}', 'Controller@action')
-    ->addPathParameter ( 'param1', function( $param ) {
-        $param->setDescription ( 'Some description' );
-     } )
-    ->addPathParameter ( 'param2', 'Some other description.', false, 'integer' );
+   ->addPathParameter ( 'param1', function( $param ) {
+       $param->setDescription ( 'Some description' );
+   } )
+   ->addPathParameter ( 'param2', 'Some other description.', false, 'integer' );
 ```
 
 It is also possible to disable the automatic route parsing from the main config file `config/api.php` setting
@@ -149,8 +150,8 @@ Use the `addResponse` to define the route response types:
 use LaravelApi\Facade as Api;
 
 Api::get ( 'some-uri', 'Controller@action' )
-    ->addResponse ( 200, 'Successful operation' )
-    ->addResponse ( 422, 'Validation error' );
+   ->addResponse ( 200, 'Successful operation' )
+   ->addResponse ( 422, 'Validation error' );
 ```
 
 ## Advanced configuration
@@ -170,7 +171,7 @@ Api::routeParameter ( 'locale' )
    ->setRequired ( true )
    ->addOptions ( 'en', 'it' );
    
-Api::get ( '{locale}/some-uri', 'Controller@action' )
+Api::get ( '{locale}/some-uri', 'Controller@action' );
 ```
 
 ### Guess parameters from FormRequest
@@ -275,10 +276,10 @@ is equivalent to:
 use LaravelApi\Facade as Api;
 
 Api::resource ( 'models/pages', 'SomeController' )
-    ->only ( 'index', 'show' );
+   ->only ( 'index', 'show' );
     
 Api::resource ( 'models/users', 'SomeController' )
-    ->only ( 'index', 'show' );
+   ->only ( 'index', 'show' );
 ```
 
 
@@ -287,21 +288,68 @@ If you use custom [API Resources](https://laravel.com/docs/5.5/eloquent-resource
 can define the following methods within your models in order the provide the right resource to the API server.
 
 ```php
-public function toApiResource ( $resource )
+class Foo extends Model 
 {
-    return new MyCustomResource ( $resource );
-}
 
+    public function toApiResource ( $resource )
+    {
+        return new MyCustomResource ( $resource );
+    }
+    
+    
+    public function toApiResourceCollection ( $resource )
+    {
+        return new MyCustomResourceCollection ( $resource );
+    }
 
-public function toApiResourceCollection ( $resource )
-{
-    return new MyCustomResourceCollection ( $resource );
 }
 ```
 
 
+### Authorization
+In order to provide the security definitions for the specification you can use one the following
+methods:
+
+```php
+use LaravelApi\Facade as Api;
+
+Api::basicAuthSecurity ( 'basic_auth' );
+
+Api::apiKeySecurity ( 'api_key' )
+   ->parameterName ( 'apiKey' )
+   ->inHeader ();
+
+Api::oauth2ImplicitSecurity ( 'oauth2_implicit' )
+   ->authorizationUrl ( 'http://www.foobar.com' )
+   ->description ( 'A description for the auth.' )
+   ->setScopes ( [
+       'write' => 'Write something',
+       'read'  => 'Read something',
+   ] );
+
+Api::oauth2PasswordSecurity ( 'oauth2_password' )
+   ->tokenUrl ( 'http://www.foobar.com' )
+   ->setScopes ( ... );
+
+Api::oauth2ApplicationSecurity ( 'oauth2_application' )
+   ->tokenUrl ( 'http://www.foobar.com' )
+   ->setScopes ( ... );
+
+Api::oauth2AccessCodeSecurity ( 'oauth2_accesscode' )
+   ->tokenUrl ( 'http://www.foobar.com' )
+   ->setScopes ( ... );
+```
+
+In any operation you can set the required security schemes via the `requiresAuth` method:
+```php
+
+Api::get ( 'some-uri', 'Controller@action' )
+   ->requiresAuth ( 'oauth2_implicit', [ 'read' ] );
+```
+
+
 ### API Json Caching
-To generate a Swagger json file cache, just execute the `api:cache` Artisan command:
+To generate a Swagger UI json file cache, just execute the `api:cache` Artisan command:
 ```bash
 php artisan api:cache
 ```
@@ -316,9 +364,10 @@ php artisan api:clear
 ```
 
 ## Todos
-*  Add support for [Components](https://swagger.io/specification/#components-object-33);
-*  Add support for response [Examples](https://swagger.io/specification/#example-object-78);
-*  Implement authentication through [Laravel Passport](https://laravel.com/docs/5.5/passport);
+- [x] Add support for [securityDefinitions](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject);
+- [ ] Add support for [Components](https://swagger.io/specification/#componentsObject);
+- [ ] Add support for response [Examples](https://swagger.io/specification/#exampleObject);
+- [ ] Implement authentication through [Laravel Passport](https://laravel.com/docs/5.5/passport);
 
 ## License
 This package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
