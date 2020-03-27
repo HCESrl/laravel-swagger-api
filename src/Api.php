@@ -30,6 +30,7 @@ use LaravelApi\Http\Controllers\AggregateController;
 class Api implements \JsonSerializable
 {
 
+    use Auth\DefinesAuthorization;
     use Macroable
     {
         __call as macroCall;
@@ -41,7 +42,7 @@ class Api implements \JsonSerializable
     protected $app;
 
     /**
-     * @var \Illuminate\Contracts\Routing\Registrar
+     * @var \Illuminate\Contracts\Routing\Registrar|\Illuminate\Routing\Router
      */
     protected $router;
 
@@ -90,14 +91,21 @@ class Api implements \JsonSerializable
 
 
     /**
+     * @return \Calcinai\Strut\Swagger
+     */
+    public function swagger ()
+    {
+        return $this->swagger;
+    }
+
+
+    /**
      * @return \Calcinai\Strut\Definitions\Info
      */
     protected function buildInfo ()
     {
-        $title = config ( 'api.title', config ( 'app.name' ) . ' API' );
-
         return Info::create ()
-                   ->setTitle ( $title )
+                   ->setTitle ( config ( 'api.title', config ( 'app.name' ) . ' API' ) )
                    ->setDescription ( config ( 'api.description' ) )
                    ->setVersion ( config ( 'api.version', '1.0.0' ) );
     }
@@ -130,9 +138,7 @@ class Api implements \JsonSerializable
      */
     public function tag ( $name, $description = null, $callback = null )
     {
-        $tag = new Tag( compact ( 'name', 'description' ) );
-
-        $this->swagger->addTag ( $tag );
+        $this->swagger->addTag ( $tag = Tag::create ( compact ( 'name', 'description' ) ) );
 
         if ( ! is_null ( $callback ) )
         {
@@ -163,7 +169,7 @@ class Api implements \JsonSerializable
      */
     public function definition ( $name )
     {
-        $definition = Definition::create ()->setName ( $name );
+        $definition = Definition::create ( compact ('name' ) );
 
         $this->swagger->getDefinitions ()->set ( $name, $definition );
 
@@ -200,8 +206,7 @@ class Api implements \JsonSerializable
 
         $options = array_merge ( [ 'only' => [ 'index', 'show', 'store', 'update', 'destroy' ], ], $options );
 
-        return ( new ResourceEndpoint( $registrar, $name, $controller, $options ) )
-            ->setApi ( $this );
+        return ( new ResourceEndpoint( $registrar, $name, $controller, $options ) )->setApi ( $this );
     }
 
 
@@ -224,11 +229,7 @@ class Api implements \JsonSerializable
      */
     public function routeParameter ( $name )
     {
-        $parameter = new PathParameter ( compact ( 'name' ) );
-
-        $this->parameters[ $name ] = $parameter;
-
-        return $parameter;
+        return $this->parameters[ $name ] = new PathParameter ( compact ( 'name' ) );
     }
 
 
@@ -237,6 +238,7 @@ class Api implements \JsonSerializable
      * @param array  $arguments
      *
      * @return mixed
+     * @throws \Exception
      */
     public function __call ( $name, $arguments )
     {
@@ -249,10 +251,8 @@ class Api implements \JsonSerializable
         {
             $route = call_user_func_array ( [ $this->router, $name ], $arguments );
 
-            $operation = $this->getEndpointByUri ( $route->uri () )
-                              ->getOperation ( $name, $route, $this->parameters );
-
-            return $operation;
+            return $this->getEndpointByUri ( $route->uri () )
+                        ->getOperation ( $name, $route, $this->parameters );
         }
 
         return $this->macroCall ( $name, $arguments );
@@ -263,6 +263,7 @@ class Api implements \JsonSerializable
      * @param string $uri
      *
      * @return Endpoints\Endpoint
+     * @throws \Exception
      */
     public function getEndpointByUri ( $uri )
     {
@@ -297,6 +298,7 @@ class Api implements \JsonSerializable
      * @param array  $resources
      *
      * @return Endpoints\Operation
+     * @throws \Exception
      */
     public function aggregate ( $uri, array $resources )
     {
@@ -305,10 +307,8 @@ class Api implements \JsonSerializable
         $route = $this->router->get ( $uri, "\\{$controller}@index" )
                               ->defaults ( 'resources', $resources );
 
-        $operation = $this->getEndpointByUri ( $route->uri () )
-                          ->getOperation ( 'get', $route );
-
-        return $operation;
+        return $this->getEndpointByUri ( $route->uri () )
+                    ->getOperation ( 'get', $route );
     }
 
 
@@ -317,11 +317,9 @@ class Api implements \JsonSerializable
      */
     public function models ( $models )
     {
-        $models = is_array ( $models ) ? $models : func_get_args ();
-
-        $registry = app ( Endpoints\ModelsEndpointRegistry::class );
-
-        $registry->add ( $models );
+        $this->app->make ( Endpoints\ModelsEndpointRegistry::class )->add (
+            is_array ( $models ) ? $models : func_get_args ()
+        );
     }
 
 
