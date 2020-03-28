@@ -3,6 +3,7 @@
 namespace LaravelApi\Tests;
 
 
+use Calcinai\Strut\Swagger;
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Routing\Router;
@@ -102,6 +103,12 @@ class ApiTest extends TestCase
                 $this->assertTrue(in_array('v1', $operation->getTags()));
             }
         );
+    }
+
+
+    public function testSwaggerInstance()
+    {
+        $this->assertInstanceOf(Swagger::class, $this->api->swagger());
     }
 
 
