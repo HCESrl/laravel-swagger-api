@@ -3,18 +3,16 @@
 namespace LaravelApi;
 
 
-use Illuminate\Contracts\Routing\Registrar;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
 
-class ServiceProvider extends IlluminateServiceProvider
+class ServiceProvider extends IlluminateServiceProvider implements DeferrableProvider
 {
 
 
 	public function register ()
 	{
-		$this->mergeConfigFrom ( __DIR__ . '/../resources/config.php', 'api' );
-
 		$this->app->singleton ( Api::class );
 
 		$this->registerModelEndpointRegistry ();
@@ -29,6 +27,9 @@ class ServiceProvider extends IlluminateServiceProvider
 	}
 
 
+    /**
+     * @return void
+     */
 	protected function registerModelEndpointRegistry ()
 	{
 		$this->app->singleton ( Endpoints\ModelsEndpointRegistry::class, function () {
@@ -43,9 +44,14 @@ class ServiceProvider extends IlluminateServiceProvider
 	}
 
 
-	public function boot ( Registrar $router )
+    /**
+     * @return void
+     */
+	public function boot ()
 	{
-		$this->initRoutes ( $router );
+        $this->mergeConfigFrom ( __DIR__ . '/../resources/config.php', 'api' );
+
+		$this->initRoutes ( $this->app[ 'router' ] );
 
 		$resourcesPath = __DIR__ . '/../resources';
 
@@ -58,12 +64,15 @@ class ServiceProvider extends IlluminateServiceProvider
 	}
 
 
-	protected function initRoutes ( Registrar $router )
+    /**
+     * @param \Illuminate\Routing\RouteRegistrar|\Illuminate\Contracts\Routing\Registrar $router
+     */
+	protected function initRoutes ( $router )
 	{
 		$router->prefix ( config ( 'api.prefix' ) )
 			   ->middleware ( 'api' )
 			   ->namespace ( 'LaravelApi\\Http\\Controllers' )
-			   ->group ( function ( Registrar $router ) {
+			   ->group ( function ( $router ) {
 
 				   if ( $jsonPath = config ( 'api.swagger_json_path' ) )
 				   {
@@ -83,7 +92,7 @@ class ServiceProvider extends IlluminateServiceProvider
 
 	public function provides ()
 	{
-		return [ Api::class ];
+		return [ Api::class, Endpoints\ModelsEndpointRegistry::class ];
 	}
 
 }

@@ -169,7 +169,7 @@ class Api implements \JsonSerializable
      */
     public function definition ( $name )
     {
-        $definition = Definition::create ( compact ('name' ) );
+        $definition = Definition::create ()->setName ($name );
 
         $this->swagger->getDefinitions ()->set ( $name, $definition );
 
@@ -196,13 +196,7 @@ class Api implements \JsonSerializable
      */
     public function resource ( $name, $controller, array $options = [] )
     {
-        if ( $this->app && $this->app->bound ( ResourceRegistrar::class ) )
-        {
-            $registrar = $this->app->make ( ResourceRegistrar::class );
-        } else
-        {
-            $registrar = new ResourceRegistrar( $this->router );
-        }
+        $registrar = $this->app->make ( ResourceRegistrar::class );
 
         $options = array_merge ( [ 'only' => [ 'index', 'show', 'store', 'update', 'destroy' ], ], $options );
 
