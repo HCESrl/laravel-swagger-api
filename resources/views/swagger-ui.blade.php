@@ -82,6 +82,7 @@
       validatorUrl: null,
       displayOperationId: true,
       oauth2RedirectUrl: "/vendor/laravel-swagger-api/oauth2-redirect.html",
+      docExpansion: "{!! $docExpansion !!}",
 
       presets: [
         SwaggerUIBundle.presets.apis,

@@ -32,9 +32,10 @@ class DocsController extends IlluminateController
 			abort ( 404 );
 		}
 		return view ( 'api::swagger-ui', [
-			'api'       => $this->api,
-			//'secure'    => $request->secure (),
-			'urlToDocs' => route ( 'api.swagger' ),
+            'api'          => $this->api,
+            //'secure'     => $request->secure (),
+            'urlToDocs'    => route('api.swagger'),
+            'docExpansion' => config('api.doc_expansion', 'list'),
 		] );
 	}
 
