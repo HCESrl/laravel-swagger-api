@@ -347,6 +347,13 @@ Api::get ( 'some-uri', 'Controller@action' )
    ->requiresAuth ( 'oauth2_implicit', [ 'read' ] );
 ```
 
+and on resources as well:
+```php
+
+Api::resource ( 'models/pages', 'SomeController' )
+   ->requiresAuth ( 'oauth2_implicit', [ 'read' ] );
+```
+
 
 ### API Json Caching
 To generate a Swagger UI json file cache, just execute the `api:cache` Artisan command:
