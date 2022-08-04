@@ -52,6 +52,5 @@
         "Api": "LaravelApi\\Facade"
       }
     }
-  },
-  "minimum-stability": "dev"
+  }
 }
