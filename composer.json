@@ -1,6 +1,6 @@
 {
-  "name": "zabaala/laravel-swagger-api",
-  "description": "Temporary fork from HCESrl/laravel-swagger-api that allow us to work with API Swagger UI package for Laravel.",
+  "name": "hcesrl/laravel-swagger-api",
+  "description": "API Swagger UI package for Laravel.",
   "homepage": "https://github.com/HCESrl/laravel-swagger-api",
   "license": "MIT",
   "authors": [
