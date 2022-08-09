@@ -2,17 +2,12 @@
 
 namespace LaravelApi\Auth;
 
-
 use Calcinai\Strut\Definitions\SecurityDefinitions;
-
 
 trait DefinesAuthorization
 {
-
-
     /**
-     * @param string $name
-     *
+     * @param  string  $name
      * @return \LaravelApi\Auth\BasicAuthenticationSecurity
      */
     public function basicAuthSecurity($name = 'basic_auth')
@@ -20,10 +15,8 @@ trait DefinesAuthorization
         return $this->securityDefinition($name, BasicAuthenticationSecurity::class);
     }
 
-
     /**
-     * @param string $name
-     *
+     * @param  string  $name
      * @return \LaravelApi\Auth\ApiKeySecurity
      */
     public function apiKeySecurity($name = 'api_key')
@@ -31,10 +24,8 @@ trait DefinesAuthorization
         return $this->securityDefinition($name, ApiKeySecurity::class);
     }
 
-
     /**
-     * @param string $name
-     *
+     * @param  string  $name
      * @return \LaravelApi\Auth\Oauth2ImplicitSecurity
      */
     public function oauth2ImplicitSecurity($name = 'oauth2_implicit')
@@ -42,10 +33,8 @@ trait DefinesAuthorization
         return $this->securityDefinition($name, Oauth2ImplicitSecurity::class);
     }
 
-
     /**
-     * @param string $name
-     *
+     * @param  string  $name
      * @return \LaravelApi\Auth\Oauth2AccessCodeSecurity
      */
     public function oauth2AccessCodeSecurity($name = 'oauth2_access_code')
@@ -53,10 +42,8 @@ trait DefinesAuthorization
         return $this->securityDefinition($name, Oauth2AccessCodeSecurity::class);
     }
 
-
     /**
-     * @param string $name
-     *
+     * @param  string  $name
      * @return \LaravelApi\Auth\Oauth2ApplicationSecurity
      */
     public function oauth2ApplicationSecurity($name = 'oauth2_application')
@@ -64,10 +51,8 @@ trait DefinesAuthorization
         return $this->securityDefinition($name, Oauth2ApplicationSecurity::class);
     }
 
-
     /**
-     * @param string $name
-     *
+     * @param  string  $name
      * @return \LaravelApi\Auth\Oauth2PasswordSecurity
      */
     public function oauth2PasswordSecurity($name = 'oauth2_password')
@@ -75,11 +60,9 @@ trait DefinesAuthorization
         return $this->securityDefinition($name, Oauth2PasswordSecurity::class);
     }
 
-
     /**
-     * @param string $name
-     * @param string $class
-     *
+     * @param  string  $name
+     * @param  string  $class
      * @return mixed
      */
     protected function securityDefinition($name, $class)
@@ -91,17 +74,15 @@ trait DefinesAuthorization
         return $instance;
     }
 
-
     /**
      * @return \Calcinai\Strut\Definitions\SecurityDefinitions
      */
     protected function getSecurityDefinitions()
     {
-        if ( ! $this->swagger->has('securityDefinitions')) {
+        if (! $this->swagger->has('securityDefinitions')) {
             $this->swagger->setSecurityDefinitions(SecurityDefinitions::create());
         }
 
         return $this->swagger->getSecurityDefinitions();
     }
-
 }

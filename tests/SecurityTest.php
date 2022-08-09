@@ -2,7 +2,6 @@
 
 namespace LaravelApi\Tests;
 
-
 use LaravelApi\Auth\ApiKeySecurity;
 use LaravelApi\Auth\BasicAuthenticationSecurity;
 use LaravelApi\Auth\Oauth2AccessCodeSecurity;
@@ -10,16 +9,12 @@ use LaravelApi\Auth\Oauth2ApplicationSecurity;
 use LaravelApi\Auth\Oauth2ImplicitSecurity;
 use LaravelApi\Auth\Oauth2PasswordSecurity;
 
-
 class SecurityTest extends TestCase
 {
-
-
     protected function assertSecurityDefinitionExists($name)
     {
         $this->assertTrue($this->api->swagger()->getSecurityDefinitions()->has('test_auth'));
     }
-
 
     protected function assertSecurityDefinitionInstanceOf($expected, $name)
     {
@@ -28,7 +23,6 @@ class SecurityTest extends TestCase
             $this->api->swagger()->getSecurityDefinitions()->get('test_auth')
         );
     }
-
 
     public function testBasicAuthSecurity()
     {
@@ -50,7 +44,6 @@ class SecurityTest extends TestCase
             'test_auth'
         );
     }
-
 
     public function testApiKeySecurity()
     {
@@ -76,15 +69,13 @@ class SecurityTest extends TestCase
         );
     }
 
-
     protected function getScopes()
     {
         return [
-            'read'  => 'Read something',
+            'read' => 'Read something',
             'write' => 'Write something',
         ];
     }
-
 
     public function testOauth2ImplicitSecurity()
     {
@@ -108,7 +99,6 @@ class SecurityTest extends TestCase
             'test_auth'
         );
     }
-
 
     public function testOauth2AccessCodeSecurity()
     {
@@ -134,7 +124,6 @@ class SecurityTest extends TestCase
         );
     }
 
-
     public function testOauth2PasswordSecurity()
     {
         $security = $this->api->oauth2PasswordSecurity('test_auth')
@@ -158,7 +147,6 @@ class SecurityTest extends TestCase
         );
     }
 
-
     public function testOauth2ApplicationSecurity()
     {
         $security = $this->api->oauth2ApplicationSecurity('test_auth')
@@ -181,5 +169,4 @@ class SecurityTest extends TestCase
             'test_auth'
         );
     }
-
 }

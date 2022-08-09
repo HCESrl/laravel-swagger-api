@@ -2,15 +2,12 @@
 
 namespace LaravelApi\Auth;
 
-
 class ApiKeySecurity extends BasicAuthenticationSecurity
 {
-
     /**
      * @var \Calcinai\Strut\Definitions\ApiKeySecurity
      */
     protected $security;
-
 
     /**
      * ApiKeySecurity constructor.
@@ -19,24 +16,22 @@ class ApiKeySecurity extends BasicAuthenticationSecurity
     {
         $this->security = new \Calcinai\Strut\Definitions\ApiKeySecurity(
             [
-                'in'   => 'header',
+                'in' => 'header',
                 'name' => 'apiKey',
             ]
         );
     }
 
-
     /**
-     * @param string $name
-     *
+     * @param  string  $name
      * @return $this
      */
     public function parameterName($name)
     {
         $this->security->setName($name);
+
         return $this;
     }
-
 
     /**
      * @return $this
@@ -44,9 +39,9 @@ class ApiKeySecurity extends BasicAuthenticationSecurity
     public function inHeader()
     {
         $this->security->setIn('header');
+
         return $this;
     }
-
 
     /**
      * @return $this
@@ -54,7 +49,7 @@ class ApiKeySecurity extends BasicAuthenticationSecurity
     public function inQuery()
     {
         $this->security->setIn('query');
+
         return $this;
     }
-
 }

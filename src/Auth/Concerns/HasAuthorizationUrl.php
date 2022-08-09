@@ -1,15 +1,11 @@
 <?php
 
-
 namespace LaravelApi\Auth\Concerns;
-
 
 trait HasAuthorizationUrl
 {
-
     /**
-     * @param string $url
-     *
+     * @param  string  $url
      * @return $this
      */
     public function authorizationUrl($url)
@@ -18,5 +14,4 @@ trait HasAuthorizationUrl
 
         return $this;
     }
-
 }

@@ -2,7 +2,6 @@
 
 namespace LaravelApi\Tests;
 
-
 use Calcinai\Strut\Swagger;
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Database\Eloquent\Model;
@@ -12,21 +11,16 @@ use LaravelApi\Endpoints\ModelsEndpointRegistry;
 use LaravelApi\Endpoints\Operation;
 use LaravelApi\Endpoints\ResourceEndpoint;
 
-
 class Page extends Model
 {
-
 }
-
 
 class ApiTest extends TestCase
 {
-
     /**
      * @var Router
      */
     protected $router;
-
 
     protected function setUp(): void
     {
@@ -35,19 +29,17 @@ class ApiTest extends TestCase
         $this->router = $this->app->make(Registrar::class);
     }
 
-
     public function testBaseEndpointRegistration()
     {
         $methods = ['get', 'post', 'put', 'delete', 'patch', 'options'];
 
         foreach ($methods as $method) {
-            $operation = $this->api->$method ('uri', 'Controller@action');
+            $operation = $this->api->$method('uri', 'Controller@action');
             $this->assertInstanceOf(Operation::class, $operation);
         }
 
         $this->assertInstanceOf(Endpoint::class, $this->api->getEndpointByUri('uri'));
     }
-
 
     public function testCustomEndpointRegistration()
     {
@@ -57,14 +49,12 @@ class ApiTest extends TestCase
         $this->assertInstanceOf(Operation::class, $endpoint->setMethod('post'));
     }
 
-
     public function testAggregateEndpointRegistration()
     {
         $operation = $this->api->aggregate('aggregate-uri', ['App\\Page', 'App\\User']);
 
         $this->assertInstanceOf(Operation::class, $operation);
     }
-
 
     public function testResourceEndpointRegistration()
     {
@@ -74,12 +64,11 @@ class ApiTest extends TestCase
         $this->assertInstanceOf(ResourceEndpoint::class, $endpoint->setApi($this->api));
     }
 
-
     public function testModelsEndpointRegistration()
     {
         $registry = $this->app->make(ModelsEndpointRegistry::class);
 
-        $registry->add([Page::class, 'posts' => 'App\Post',]);
+        $registry->add([Page::class, 'posts' => 'App\Post']);
 
         $this->assertInstanceOf(ModelsEndpointRegistry::class, $registry);
 
@@ -91,7 +80,6 @@ class ApiTest extends TestCase
         $this->assertInstanceOf(ModelsEndpointRegistry::class, $registry->clear());
         $this->assertFalse($registry->has(Page::class));
     }
-
 
     public function testVersion()
     {
@@ -105,23 +93,18 @@ class ApiTest extends TestCase
         );
     }
 
-
     public function testSwaggerInstance()
     {
         $this->assertInstanceOf(Swagger::class, $this->api->swagger());
     }
-
 
     public function testTitle()
     {
         $this->assertIsString($this->api->title());
     }
 
-
     public function testJsonSerialization()
     {
         $this->assertTrue(is_array($this->api->jsonSerialize()));
     }
-
-
 }

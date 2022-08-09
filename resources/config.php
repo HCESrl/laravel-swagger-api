@@ -5,27 +5,27 @@ return [
     /**
      * The API url prefix.
      */
-    'prefix'                 => 'api',
+    'prefix' => 'api',
 
     /**
      * The API title.
      */
-    'title'                  => 'Laravel API',
+    'title' => 'Laravel API',
 
     /**
      * The API description.
      */
-    'description'            => '',
+    'description' => '',
 
     /**
      * The current API version.
      */
-    'version'                => '1.0.0',
+    'version' => '1.0.0',
 
     /**
      * The UI docExpansion configuration (none, list, full)
      */
-    'doc_expansion'           => 'list',
+    'doc_expansion' => 'list',
 
     /**
      * The HTTP scheme through which the API is served.
@@ -43,11 +43,11 @@ return [
      * The API subpath to the Swagger json schema (false to disable).
      * Note: disabling the json schema will also disable the Swagger UI page
      */
-    'swagger_json_path'      => 'docs/swagger.json',
+    'swagger_json_path' => 'docs/swagger.json',
 
     /**
      * The API subpath to the Swagger UI page (false to disable).
      */
-    'swagger_ui_path'        => env ( 'APP_DEBUG', false ) ? 'docs' : false,
+    'swagger_ui_path' => env('APP_DEBUG', false) ? 'docs' : false,
 
 ];
