@@ -2,15 +2,12 @@
 
 namespace LaravelApi\Auth;
 
-
 class BasicAuthenticationSecurity
 {
-
     /**
      * @var \Calcinai\Strut\Definitions\BasicAuthenticationSecurity
      */
     protected $security;
-
 
     /**
      * BasicAuthenticationSecurity constructor.
@@ -20,22 +17,19 @@ class BasicAuthenticationSecurity
         $this->security = new \Calcinai\Strut\Definitions\BasicAuthenticationSecurity();
     }
 
-
     /**
-     * @param string $description
-     *
+     * @param  string  $description
      * @return $this
      */
     final public function description($description)
     {
         $this->security->setDescription($description);
+
         return $this;
     }
-
 
     final public function toBase()
     {
         return $this->security;
     }
-
 }

@@ -2,9 +2,7 @@
 
 namespace LaravelApi;
 
-
 use Illuminate\Support\Facades\Facade as IlluminateFacade;
-
 
 /**
  * @method static \Calcinai\Strut\Swagger swagger()
@@ -36,13 +34,12 @@ use Illuminate\Support\Facades\Facade as IlluminateFacade;
  */
 class Facade extends IlluminateFacade
 {
-
     /**
      * Get the registered name of the component.
      *
      * @return string
      */
-    protected static function getFacadeAccessor ()
+    protected static function getFacadeAccessor()
     {
         return Api::class;
     }
