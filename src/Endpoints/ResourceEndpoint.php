@@ -2,7 +2,6 @@
 
 namespace LaravelApi\Endpoints;
 
-use Calcinai\Strut\Definitions\SecurityRequirement;
 use Illuminate\Routing\PendingResourceRegistration;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -11,12 +10,12 @@ use LaravelApi\Api;
 class ResourceEndpoint extends PendingResourceRegistration
 {
     /**
-     * @var Api
+     * @var \LaravelApi\Api
      */
     protected $api;
 
     /**
-     * @var SecurityRequirement
+     * @var \Calcinai\Strut\Definitions\SecurityRequirement
      */
     protected $auth;
 
@@ -27,7 +26,7 @@ class ResourceEndpoint extends PendingResourceRegistration
 
     /**
      * @param  Api  $api
-     * @return ResourceEndpoint
+     * @return \LaravelApi\Endpoints\ResourceEndpoint
      */
     public function setApi(Api $api)
     {
@@ -162,7 +161,7 @@ class ResourceEndpoint extends PendingResourceRegistration
     /**
      * @param  string  $name
      * @param  array  $scopes
-     * @return $this
+     * @return \LaravelApi\Endpoints\ResourceEndpoint
      *
      * @throws \Exception
      */

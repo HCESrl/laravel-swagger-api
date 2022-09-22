@@ -9,9 +9,9 @@ class Endpoint extends PathItem
 {
     /**
      * @param  string  $method
-     * @param  Route  $route
+     * @param  \Illuminate\Routing\Route  $route
      * @param  array  $parameters
-     * @return Operation
+     * @return \Calcinai\Strut\Definitions\Operation
      */
     public function getOperation($method, Route $route, array $parameters = [])
     {
@@ -21,7 +21,7 @@ class Endpoint extends PathItem
 
     /**
      * @param  string  $method
-     * @return Operation
+     * @return \Calcinai\Strut\Definitions\Operation
      */
     public function setMethod($method)
     {

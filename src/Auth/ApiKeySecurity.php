@@ -24,7 +24,7 @@ class ApiKeySecurity extends BasicAuthenticationSecurity
 
     /**
      * @param  string  $name
-     * @return $this
+     * @return \LaravelApi\Auth\ApiKeySecurity
      */
     public function parameterName($name)
     {
@@ -34,7 +34,7 @@ class ApiKeySecurity extends BasicAuthenticationSecurity
     }
 
     /**
-     * @return $this
+     * @return \LaravelApi\Auth\ApiKeySecurity
      */
     public function inHeader()
     {
@@ -44,7 +44,7 @@ class ApiKeySecurity extends BasicAuthenticationSecurity
     }
 
     /**
-     * @return $this
+     * @return \LaravelApi\Auth\ApiKeySecurity
      */
     public function inQuery()
     {

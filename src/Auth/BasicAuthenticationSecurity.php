@@ -19,7 +19,7 @@ class BasicAuthenticationSecurity
 
     /**
      * @param  string  $description
-     * @return $this
+     * @return \LaravelApi\Auth\BasicAuthenticationSecurity
      */
     final public function description($description)
     {
@@ -28,6 +28,9 @@ class BasicAuthenticationSecurity
         return $this;
     }
 
+    /**
+     * @return \Calcinai\Strut\Definitions\BasicAuthenticationSecurity
+     */
     final public function toBase()
     {
         return $this->security;

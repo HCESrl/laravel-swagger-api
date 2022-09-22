@@ -18,7 +18,7 @@ class Definition extends Schema
 
     /**
      * @param  string  $name
-     * @return Definition
+     * @return \LaravelApi\Definition
      */
     public function setName($name)
     {
@@ -32,7 +32,7 @@ class Definition extends Schema
      * @param  string  $type
      * @param  string  $description
      * @param  string  $default
-     * @return Definition
+     * @return \LaravelApi\Definition
      *
      * @throws \Exception
      */
@@ -46,7 +46,7 @@ class Definition extends Schema
     }
 
     /**
-     * @return Schema
+     * @return \Calcinai\Strut\Definitions\Schema
      */
     public function toRef()
     {

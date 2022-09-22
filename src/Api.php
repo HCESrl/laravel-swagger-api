@@ -49,7 +49,7 @@ class Api implements \JsonSerializable
     protected $swagger;
 
     /**
-     * @var array|PathParameter[]
+     * @var array|\LaravelApi\Endpoints\Parameters\PathParameter[]
      */
     protected $parameters = [];
 

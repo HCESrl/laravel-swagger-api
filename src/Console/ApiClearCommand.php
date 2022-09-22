@@ -30,14 +30,17 @@ class ApiClearCommand extends Command
     protected $files;
 
     /**
-     * @var Api
+     * @var \LaravelApi\Api
      */
     protected $api;
+
 
     /**
      * Create a new route clear command instance.
      *
      * @param  \Illuminate\Filesystem\Filesystem  $files
+     * @param  \LaravelApi\Api  $api
+     *
      * @return void
      */
     public function __construct(Filesystem $files, Api $api)

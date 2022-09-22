@@ -17,7 +17,7 @@ class ModelsEndpointRegistry
     protected $registry = [];
 
     /**
-     * @var Api
+     * @var \LaravelApi\Api
      */
     protected $api;
 
@@ -27,7 +27,7 @@ class ModelsEndpointRegistry
     protected $parameters = [];
 
     /**
-     * @param  Api  $api
+     * @param  \LaravelApi\Api  $api
      */
     public function __construct(Api $api)
     {
@@ -61,7 +61,7 @@ class ModelsEndpointRegistry
 
     /**
      * @param  array  $models
-     * @return $this
+     * @return \LaravelApi\Endpoints\ModelsEndpointRegistry
      */
     public function add(array $models)
     {
@@ -93,7 +93,7 @@ class ModelsEndpointRegistry
 
     /**
      * @param  array  $names
-     * @return $this
+     * @return \LaravelApi\Endpoints\ModelsEndpointRegistry
      */
     protected function addOptionsToParameters(array $names)
     {
@@ -108,7 +108,7 @@ class ModelsEndpointRegistry
 
     /**
      * @param  string  $name
-     * @return Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function resolve($name)
     {
@@ -131,7 +131,7 @@ class ModelsEndpointRegistry
     }
 
     /**
-     * @return $this
+     * @return \LaravelApi\Endpoints\ModelsEndpointRegistry
      */
     public function clear()
     {

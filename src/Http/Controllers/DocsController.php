@@ -11,7 +11,7 @@ use LaravelApi\Api;
 class DocsController extends IlluminateController
 {
     /**
-     * @var Api
+     * @var \LaravelApi\Api
      */
     protected $api;
 

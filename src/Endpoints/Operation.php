@@ -55,7 +55,7 @@ class Operation extends StrutOperation
     /**
      * @param  \Illuminate\Routing\Route  $route
      * @param  array  $parameters
-     * @return $this
+     * @return \LaravelApi\Endpoints\Operation
      */
     public function setRoute(Route $route, array $parameters = [])
     {
@@ -76,7 +76,7 @@ class Operation extends StrutOperation
 
     /**
      * @param  array  $tags
-     * @return $this
+     * @return \LaravelApi\Endpoints\Operation
      */
     protected function initTags(array $tags)
     {
@@ -89,7 +89,7 @@ class Operation extends StrutOperation
 
     /**
      * @param  \Illuminate\Routing\Route  $route
-     * @return $this
+     * @return \LaravelApi\Endpoints\Operation
      */
     protected function initOperationId(Route $route)
     {
@@ -101,7 +101,7 @@ class Operation extends StrutOperation
     /**
      * @param  string  $uri
      * @param  array  $parameters
-     * @return $this
+     * @return \LaravelApi\Endpoints\Operation
      */
     public function parseRouteParameters($uri, array $parameters = [])
     {
@@ -151,7 +151,7 @@ class Operation extends StrutOperation
      * @param  string|callable  $descriptionOrCallback
      * @param  bool  $required
      * @param  string  $type
-     * @return $this
+     * @return \LaravelApi\Endpoints\Operation
      */
     public function addHeaderParameter($name, $descriptionOrCallback = null, $required = false, $type = 'string')
     {
@@ -169,7 +169,7 @@ class Operation extends StrutOperation
      * @param  string|callable  $descriptionOrCallback
      * @param  bool  $required
      * @param  string  $type
-     * @return $this
+     * @return \LaravelApi\Endpoints\Operation
      */
     public function addQueryParameter($name, $descriptionOrCallback = null, $required = false, $type = 'string')
     {
@@ -187,7 +187,7 @@ class Operation extends StrutOperation
      * @param  string|callable  $descriptionOrCallback
      * @param  bool  $required
      * @param  string  $type
-     * @return $this
+     * @return \LaravelApi\Endpoints\Operation
      */
     public function addPathParameter($name, $descriptionOrCallback = null, $required = false, $type = 'string')
     {
@@ -205,7 +205,7 @@ class Operation extends StrutOperation
      * @param  string|callable  $descriptionOrCallback
      * @param  bool  $required
      * @param  string  $type
-     * @return $this
+     * @return \LaravelApi\Endpoints\Operation
      */
     public function addFormDataParameter($name, $descriptionOrCallback = null, $required = false, $type = 'string')
     {
@@ -226,7 +226,7 @@ class Operation extends StrutOperation
      * @param  string  $name
      * @param  string|callable  $descriptionOrCallback
      * @param  bool  $required
-     * @return $this
+     * @return \LaravelApi\Endpoints\Operation
      */
     public function addBodyParameter($name, $descriptionOrCallback = null, $required = false)
     {
@@ -239,7 +239,7 @@ class Operation extends StrutOperation
      * @param  string|callable  $descriptionOrCallback
      * @param  bool  $required
      * @param  string  $type
-     * @return $this
+     * @return \LaravelApi\Endpoints\Operation
      */
     protected function registerParameter(
         $parameterType,
@@ -306,7 +306,7 @@ class Operation extends StrutOperation
     /**
      * @param  int  $code
      * @param  string  $description
-     * @return $this
+     * @return \LaravelApi\Endpoints\Operation
      *
      * @throws \Exception
      */
@@ -319,7 +319,7 @@ class Operation extends StrutOperation
 
     /**
      * @param  string  $request
-     * @return $this
+     * @return \LaravelApi\Endpoints\Operation
      */
     public function bindRequest($request)
     {
@@ -332,7 +332,7 @@ class Operation extends StrutOperation
 
     /**
      * @param  array  $requestRules
-     * @return $this
+     * @return \LaravelApi\Endpoints\Operation
      */
     protected function bindRules(array $requestRules)
     {
@@ -364,7 +364,7 @@ class Operation extends StrutOperation
     /**
      * @param  string  $name
      * @param  array  $scopes
-     * @return $this
+     * @return \LaravelApi\Endpoints\Operation
      *
      * @throws \Exception
      */
